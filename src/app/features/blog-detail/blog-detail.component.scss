@@ -1,0 +1,92 @@
+@use 'tokens' as *;
+
+.post-header {
+  background: linear-gradient(135deg, $color-primary-navy, $color-royal-blue);
+  color: $color-white;
+  padding: $spacing-12 0 $spacing-16 0;
+
+  .category-badge {
+    display: inline-block;
+    background: $color-gold;
+    color: $color-primary-navy;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    padding: 4px 14px;
+    border-radius: $radius-full;
+    margin-top: $spacing-3;
+  }
+
+  .post-title {
+    font-size: 2.75rem;
+    color: $color-white;
+    margin-top: $spacing-2;
+
+    @media (max-width: $breakpoint-md) {
+      font-size: 1.85rem;
+    }
+  }
+
+  .post-meta {
+    display: flex;
+    gap: $spacing-3;
+    color: $color-warm-gold;
+    font-size: $font-size-sm;
+    margin-top: $spacing-3;
+  }
+}
+
+.image-container {
+  margin-top: -$spacing-10;
+  position: relative;
+  z-index: 10;
+
+  .featured-img {
+    width: 100%;
+    max-height: 480px;
+    object-fit: cover;
+    border-radius: $radius-xl;
+    box-shadow: $shadow-lg;
+  }
+}
+
+.post-body-section {
+  padding: $spacing-12 0 $spacing-20 0;
+}
+
+.body-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: $spacing-10;
+
+  @media (max-width: $breakpoint-sm) {
+    padding: $spacing-6;
+  }
+}
+
+.markdown-body {
+  font-size: $font-size-base;
+  line-height: 1.8;
+  color: $color-dark-text;
+
+  ::ng-deep {
+    h1, h2, h3, h4 {
+      color: $color-primary-navy;
+      margin-top: $spacing-8;
+      margin-bottom: $spacing-3;
+    }
+
+    h2 { font-size: 1.75rem; border-bottom: 2px solid $color-border; padding-bottom: 6px; }
+    h3 { font-size: 1.35rem; }
+
+    p { margin-bottom: $spacing-4; }
+    ul, ol { margin-bottom: $spacing-4; padding-left: $spacing-6; }
+    li { margin-bottom: $spacing-2; }
+    blockquote {
+      border-left: 4px solid $color-gold;
+      padding-left: $spacing-4;
+      font-style: italic;
+      color: $color-muted-text;
+      margin: $spacing-6 0;
+    }
+  }
+}

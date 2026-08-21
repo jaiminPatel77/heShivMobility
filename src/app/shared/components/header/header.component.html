@@ -1,0 +1,92 @@
+<!-- Top Bar -->
+<!-- <div class="top-bar">
+  <div class="container top-bar-content">
+    <div class="contact-items">
+      <a [href]="'tel:' + businessInfo.phone" class="top-link">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+        <span>{{ businessInfo.phone }}</span>
+      </a>
+      <a [href]="'mailto:' + businessInfo.email" class="top-link hidden-sm">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+        <span>{{ businessInfo.email }}</span>
+      </a>
+    </div>
+    <div class="top-tagline">
+      <span>{{ businessInfo.tagline }}</span>
+    </div>
+  </div>
+</div> -->
+
+<!-- Main Navigation Bar -->
+<header class="navbar" [class.scrolled]="isScrolled()">
+  <div class="container navbar-content">
+    <!-- Brand Logo & Name -->
+    <a routerLink="/" class="brand-logo" (click)="closeMobileMenu()">
+      <div class="logo-badge">HS</div>
+      <div class="brand-text">
+        <span class="brand-name">{{ businessInfo.companyName }}</span>
+        <span class="brand-sub">{{ businessInfo.tagline }}</span>
+      </div>
+    </a>
+
+    <!-- Desktop Navigation Menu -->
+    <nav class="desktop-nav" aria-label="Main Navigation">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">Home</a>
+      <a routerLink="/about" routerLinkActive="active" class="nav-link">About</a>
+      <a routerLink="/packages" routerLinkActive="active" class="nav-link">Packages</a>
+      <a routerLink="/gallery" routerLinkActive="active" class="nav-link">Gallery</a>
+      <a routerLink="/blog" routerLinkActive="active" class="nav-link">Blog</a>
+      <a routerLink="/faq" routerLinkActive="active" class="nav-link">FAQ</a>
+      <a routerLink="/contact" routerLinkActive="active" class="nav-link">Contact</a>
+    </nav>
+
+    <!-- Header CTA -->
+    <div class="header-cta hidden-md">
+      <a routerLink="/enquiry" class="btn btn-primary btn-sm">Plan Your Trip</a>
+    </div>
+
+    <!-- Mobile Hamburger Toggle -->
+    <button class="hamburger-btn" (click)="toggleMobileMenu()" [attr.aria-expanded]="isMobileMenuOpen()"
+      aria-label="Toggle navigation menu">
+      <span class="hamburger-bar" [class.open]="isMobileMenuOpen()"></span>
+      <span class="hamburger-bar" [class.open]="isMobileMenuOpen()"></span>
+      <span class="hamburger-bar" [class.open]="isMobileMenuOpen()"></span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile Navigation Drawer -->
+<div class="mobile-drawer" [class.open]="isMobileMenuOpen()">
+  <div class="drawer-overlay" (click)="closeMobileMenu()"></div>
+  <div class="drawer-content">
+    <div class="drawer-header">
+      <div class="brand-text">
+        <span class="brand-name">{{ businessInfo.companyName }}</span>
+        <span class="brand-sub">{{ businessInfo.tagline }}</span>
+      </div>
+      <button class="close-btn" (click)="closeMobileMenu()" aria-label="Close menu">&times;</button>
+    </div>
+    <nav class="mobile-nav">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+        (click)="closeMobileMenu()">Home</a>
+      <a routerLink="/about" routerLinkActive="active" (click)="closeMobileMenu()">About Us</a>
+      <a routerLink="/packages" routerLinkActive="active" (click)="closeMobileMenu()">Travel Packages</a>
+      <a routerLink="/gallery" routerLinkActive="active" (click)="closeMobileMenu()">Gallery</a>
+      <a routerLink="/blog" routerLinkActive="active" (click)="closeMobileMenu()">Blog & Guides</a>
+      <a routerLink="/faq" routerLinkActive="active" (click)="closeMobileMenu()">FAQs</a>
+      <a routerLink="/contact" routerLinkActive="active" (click)="closeMobileMenu()">Contact Us</a>
+    </nav>
+    <div class="drawer-cta">
+      <a routerLink="/enquiry" class="btn btn-primary w-full" (click)="closeMobileMenu()">Plan Your Trip</a>
+      <div class="drawer-contact">
+        <a [href]="'tel:' + businessInfo.phone">{{ businessInfo.phone }}</a>
+        <a [href]="'mailto:' + businessInfo.email">{{ businessInfo.email }}</a>
+      </div>
+    </div>
+  </div>
+</div>

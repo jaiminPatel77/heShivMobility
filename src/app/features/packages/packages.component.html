@@ -1,0 +1,57 @@
+<div class="page-header">
+  <div class="container">
+    <!-- <app-breadcrumb [items]="[{ label: 'Tour Packages' }]"></app-breadcrumb> -->
+    <h1 class="page-title">Curated Gujarat Travel Packages</h1>
+    <p class="page-subtitle">Pilgrimage • Family • Group • Spiritual Circuits</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <!-- Controls Bar: Search & Category Tabs -->
+    <div class="filter-controls">
+      <div class="search-box">
+        <input
+          type="text"
+          [value]="searchQuery()"
+          (input)="onSearchChange($event)"
+          placeholder="Search by destination (e.g. Somnath, Kutch, Kevadia)..."
+          class="search-input" />
+      </div>
+
+      <div class="category-tabs">
+        <button
+          *ngFor="let cat of categories()"
+          class="tab-btn"
+          [class.active]="selectedCategory() === cat"
+          (click)="setCategory(cat)">
+          {{ cat }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading Skeleton -->
+    <app-loading-skeleton *ngIf="isLoading()" [count]="6" [columns]="3"></app-loading-skeleton>
+
+    <!-- Error State -->
+    <app-error-state
+      *ngIf="!isLoading() && hasError()"
+      (retry)="loadPackages()">
+    </app-error-state>
+
+    <!-- Empty Search Results -->
+    <app-empty-state
+      *ngIf="!isLoading() && !hasError() && filteredPackages().length === 0"
+      title="No packages match your search"
+      message="Try searching for a different destination or select 'All' categories.">
+    </app-empty-state>
+
+    <!-- Package Grid -->
+    <div *ngIf="!isLoading() && !hasError() && filteredPackages().length > 0" class="cards-grid">
+      <app-package-card
+        *ngFor="let pkg of filteredPackages()"
+        [pkg]="pkg">
+      </app-package-card>
+    </div>
+  </div>
+</section>

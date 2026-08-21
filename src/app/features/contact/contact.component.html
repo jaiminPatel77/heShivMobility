@@ -1,0 +1,69 @@
+<div class="page-header">
+  <div class="container">
+    <!-- <app-breadcrumb [items]="[{ label: 'Contact Us' }]"></app-breadcrumb> -->
+    <h1 class="page-title">Get In Touch With Us</h1>
+    <p class="page-subtitle">We are here to assist you with your sacred journey and travel plans</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container contact-grid">
+    <!-- Direct Details Column -->
+    <div class="contact-info-col">
+      <div class="info-card card-glass">
+        <h2 class="card-head">Office Contact Information</h2>
+        <ul class="info-list">
+          <li>
+            <div class="icon-wrap">📍</div>
+            <div class="det">
+              <span class="lbl">Office Address</span>
+              <span class="val">{{ businessInfo.address }}</span>
+              <a [href]="businessInfo.googleMapsUrl" target="_blank" rel="noopener noreferrer" class="map-link">
+                Open in Google Maps &rarr;
+              </a>
+            </div>
+          </li>
+
+          <li>
+            <div class="icon-wrap">📞</div>
+            <div class="det">
+              <span class="lbl">Phone / Helpline</span>
+              <a [href]="'tel:' + businessInfo.phone" class="val-link">{{ businessInfo.phone }}</a>
+            </div>
+          </li>
+
+          <li>
+            <div class="icon-wrap">💬</div>
+            <div class="det">
+              <span class="lbl">WhatsApp Support</span>
+              <a [href]="'https://wa.me/' + businessInfo.whatsapp" target="_blank" rel="noopener noreferrer" class="val-link">
+                Chat on WhatsApp (+{{ businessInfo.whatsapp }})
+              </a>
+            </div>
+          </li>
+
+          <li>
+            <div class="icon-wrap">✉️</div>
+            <div class="det">
+              <span class="lbl">Email Address</span>
+              <a [href]="'mailto:' + businessInfo.email" class="val-link">{{ businessInfo.email }}</a>
+            </div>
+          </li>
+
+          <li>
+            <div class="icon-wrap">⏱️</div>
+            <div class="det">
+              <span class="lbl">Working Hours</span>
+              <span class="val">{{ businessInfo.businessHours }}</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Enquiry Form Column -->
+    <div class="contact-form-col">
+      <app-enquiry-form></app-enquiry-form>
+    </div>
+  </div>
+</section>

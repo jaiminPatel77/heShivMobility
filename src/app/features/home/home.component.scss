@@ -1,0 +1,151 @@
+@use 'tokens' as *;
+
+.section {
+  padding: $spacing-16 0;
+
+  @media (max-width: $breakpoint-md) {
+    padding: $spacing-12 0;
+  }
+}
+
+.trust-highlights-section {
+  background-color: $color-white;
+  margin-top: -$spacing-10;
+  position: relative;
+  z-index: 10;
+
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: $spacing-6;
+  }
+
+  .trust-card {
+    padding: $spacing-6;
+    text-align: center;
+    border-radius: $radius-lg;
+
+    .icon-box {
+      font-size: 2.5rem;
+      margin-bottom: $spacing-3;
+    }
+
+    h3 {
+      font-size: $font-size-lg;
+      color: $color-primary-navy;
+      margin-bottom: $spacing-2;
+    }
+
+    p {
+      font-size: $font-size-sm;
+      color: $color-muted-text;
+      line-height: 1.5;
+    }
+  }
+}
+
+.packages-section {
+  background-color: $color-light-bg;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: $spacing-8;
+
+  @media (max-width: $breakpoint-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.section-action {
+  text-align: center;
+  margin-top: $spacing-12;
+}
+
+.philosophy-section {
+  background-color: $color-white;
+
+  .philosophy-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-12;
+    align-items: center;
+
+    @media (min-width: $breakpoint-lg) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .philosophy-text {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
+
+    .badge {
+      font-size: $font-size-xs;
+      color: $color-royal-blue;
+      font-weight: $font-weight-bold;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      font-size: 2.25rem;
+      line-height: 1.25;
+
+      @media (max-width: $breakpoint-md) {
+        font-size: 1.75rem;
+      }
+    }
+
+    p {
+      color: $color-muted-text;
+      font-size: $font-size-base;
+      line-height: 1.6;
+    }
+
+    .check-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-2;
+      font-weight: $font-weight-medium;
+      color: $color-primary-navy;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: $spacing-4;
+      margin-top: $spacing-4;
+      flex-wrap: wrap;
+    }
+  }
+
+  .philosophy-image {
+    .rounded-img {
+      border-radius: $radius-xl;
+      box-shadow: $shadow-lg;
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+    }
+  }
+}
+
+.testimonials-section {
+  background-color: $color-light-bg;
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: $spacing-8;
+  }
+}
+
+.gallery-section {
+  background-color: $color-white;
+}
+
+.blog-section {
+  background-color: $color-light-bg;
+}

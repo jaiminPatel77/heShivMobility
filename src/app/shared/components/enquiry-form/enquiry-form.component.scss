@@ -1,0 +1,138 @@
+@use 'tokens' as *;
+
+.enquiry-card {
+  padding: $spacing-8;
+  border-radius: $radius-xl;
+  background: $color-white;
+  box-shadow: $shadow-lg;
+
+  @media (max-width: $breakpoint-md) {
+    padding: $spacing-6;
+  }
+}
+
+.form-header {
+  margin-bottom: $spacing-6;
+  text-align: center;
+
+  .form-title {
+    font-family: $font-heading;
+    font-size: $font-size-2xl;
+    color: $color-primary-navy;
+    font-weight: $font-weight-bold;
+  }
+
+  .form-sub {
+    font-size: $font-size-sm;
+    color: $color-muted-text;
+    margin-top: $spacing-1;
+  }
+}
+
+.enquiry-form-body {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-4;
+
+  @media (min-width: $breakpoint-md) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $color-dark-text;
+
+    .req {
+      color: $color-danger;
+    }
+  }
+
+  input[type="text"],
+  input[type="tel"],
+  input[type="email"],
+  input[type="number"],
+  input[type="date"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid $color-border;
+    border-radius: $radius-md;
+    font-size: $font-size-base;
+    background-color: $color-light-bg;
+    color: $color-dark-text;
+    transition: border-color $transition-fast, box-shadow $transition-fast;
+
+    &:focus {
+      outline: none;
+      border-color: $color-royal-blue;
+      box-shadow: 0 0 0 3px rgba(22, 74, 145, 0.15);
+      background-color: $color-white;
+    }
+
+    &.is-invalid {
+      border-color: $color-danger;
+      background-color: #fff5f5;
+    }
+  }
+}
+
+.radio-group {
+  display: flex;
+  gap: $spacing-6;
+
+  .radio-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-sm;
+    cursor: pointer;
+  }
+}
+
+.field-error {
+  font-size: 0.8rem;
+  color: $color-danger;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: $spacing-4;
+  font-size: $font-size-lg;
+  margin-top: $spacing-4;
+}
+
+.alert {
+  padding: $spacing-4;
+  border-radius: $radius-md;
+  margin-bottom: $spacing-6;
+  display: flex;
+  gap: $spacing-3;
+  align-items: center;
+
+  &.alert-success {
+    background-color: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    color: #065f46;
+  }
+
+  &.alert-danger {
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+  }
+}

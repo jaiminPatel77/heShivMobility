@@ -1,0 +1,104 @@
+@use 'tokens' as *;
+
+.page-header {
+  background: linear-gradient(135deg, $color-primary-navy, $color-royal-blue);
+  color: $color-white;
+  padding: $spacing-12 0 $spacing-16 0;
+
+  .page-title {
+    font-size: 2.75rem;
+    color: $color-white;
+    margin-top: $spacing-2;
+  }
+  .page-subtitle {
+    color: $color-warm-gold;
+    font-size: $font-size-lg;
+  }
+}
+
+.section {
+  padding: $spacing-12 0 $spacing-20 0;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-10;
+
+  @media (min-width: $breakpoint-lg) {
+    grid-template-columns: 1fr 1.3fr;
+  }
+}
+
+.info-card {
+  padding: $spacing-8;
+  border-radius: $radius-xl;
+
+  .card-head {
+    font-size: $font-size-2xl;
+    color: $color-primary-navy;
+    margin-bottom: $spacing-6;
+    border-bottom: 2px solid $color-gold;
+    padding-bottom: $spacing-2;
+  }
+}
+
+.info-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-6;
+
+  li {
+    display: flex;
+    gap: $spacing-4;
+  }
+
+  .icon-wrap {
+    font-size: 1.8rem;
+    width: 44px;
+    height: 44px;
+    background: rgba(217, 162, 27, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .det {
+    display: flex;
+    flex-direction: column;
+
+    .lbl {
+      font-size: $font-size-xs;
+      color: $color-muted-text;
+      font-weight: $font-weight-bold;
+      text-transform: uppercase;
+    }
+
+    .val {
+      font-size: $font-size-base;
+      color: $color-dark-text;
+      margin-top: 2px;
+    }
+
+    .val-link {
+      font-size: $font-size-base;
+      color: $color-royal-blue;
+      font-weight: $font-weight-bold;
+      margin-top: 2px;
+
+      &:hover { color: $color-gold; }
+    }
+
+    .map-link {
+      font-size: $font-size-xs;
+      color: $color-gold;
+      font-weight: $font-weight-bold;
+      margin-top: 4px;
+
+      &:hover { text-decoration: underline; }
+    }
+  }
+}

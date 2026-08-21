@@ -1,0 +1,82 @@
+@use 'tokens' as *;
+
+.page-header {
+  background: linear-gradient(135deg, $color-primary-navy, $color-royal-blue);
+  color: $color-white;
+  padding: $spacing-12 0 $spacing-16 0;
+
+  .page-title {
+    font-size: 2.75rem;
+    color: $color-white;
+    margin-top: $spacing-2;
+  }
+  .page-subtitle {
+    color: $color-warm-gold;
+    font-size: $font-size-lg;
+  }
+}
+
+.section {
+  padding: $spacing-12 0 $spacing-20 0;
+}
+
+.filter-controls {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-6;
+  margin-bottom: $spacing-10;
+
+  @media (min-width: $breakpoint-lg) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.search-box {
+  width: 100%;
+  max-width: 420px;
+
+  .search-input {
+    width: 100%;
+    padding: $spacing-3 $spacing-5;
+    border: 1px solid $color-border;
+    border-radius: $radius-full;
+    font-size: $font-size-base;
+    box-shadow: $shadow-sm;
+
+    &:focus {
+      outline: none;
+      border-color: $color-royal-blue;
+      box-shadow: 0 0 0 3px rgba(22, 74, 145, 0.15);
+    }
+  }
+}
+
+.category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-2;
+
+  .tab-btn {
+    padding: $spacing-2 $spacing-5;
+    border-radius: $radius-full;
+    background: $color-white;
+    border: 1px solid $color-border;
+    color: $color-primary-navy;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+
+    &:hover, &.active {
+      background-color: $color-primary-navy;
+      color: $color-gold;
+      border-color: $color-primary-navy;
+    }
+  }
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: $spacing-8;
+}

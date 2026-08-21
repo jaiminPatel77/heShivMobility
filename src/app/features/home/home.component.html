@@ -1,0 +1,144 @@
+<!-- Hero Section -->
+<app-hero></app-hero>
+
+<!-- Section 1: Trust Highlights -->
+<section class="section trust-highlights-section">
+  <div class="container">
+    <div class="trust-grid">
+      <div class="trust-card card-glass">
+        <div class="icon-box">🚘</div>
+        <h3>Comfortable Travel</h3>
+        <p>Squeaky clean, fully sanitized AC vehicles with polite, experienced local drivers.</p>
+      </div>
+
+      <div class="trust-card card-glass">
+        <div class="icon-box">👨‍👩‍👧‍👦</div>
+        <h3>Family Friendly</h3>
+        <p>Tailored schedules, patient travel pace, and elder assistance at all temple spots.</p>
+      </div>
+
+      <div class="trust-card card-glass">
+        <div class="icon-box">🛡️</div>
+        <h3>Reliable Service</h3>
+        <p>Punctual pickups, transparent pricing, and 24/7 dedicated travel support helpline.</p>
+      </div>
+
+      <div class="trust-card card-glass">
+        <div class="icon-box">🗺️</div>
+        <h3>Customized Trips</h3>
+        <p>Flexible itineraries tailored precisely to your family size, budget, and dates.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 2: Featured Packages -->
+<section class="section packages-section">
+  <div class="container">
+    <app-section-title
+      badge="Handcrafted Yatras"
+      title="Popular Pilgrimage & Tour Packages"
+      subtitle="Explore our top-rated Gujarat spiritual and family travel circuits designed with utmost care.">
+    </app-section-title>
+
+    <app-loading-skeleton *ngIf="isLoadingPackages()" [count]="3" [columns]="3"></app-loading-skeleton>
+
+    <app-error-state
+      *ngIf="!isLoadingPackages() && hasPackageError()"
+      (retry)="loadHomeData()">
+    </app-error-state>
+
+    <div *ngIf="!isLoadingPackages() && !hasPackageError()" class="cards-grid">
+      <app-package-card
+        *ngFor="let pkg of featuredPackages()"
+        [pkg]="pkg">
+      </app-package-card>
+    </div>
+
+    <div class="section-action">
+      <a routerLink="/packages" class="btn btn-outline btn-lg">View All Travel Packages &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- Section 3: Why Choose Us / Philosophy -->
+<section class="section philosophy-section">
+  <div class="container philosophy-container">
+    <div class="philosophy-text">
+      <span class="badge">Why Heshiv Mobility</span>
+      <h2>Moving People With Care Is Not Just Our Tagline — It Is Our Duty</h2>
+      <p>
+        At <strong>Heshiv Mobility</strong>, we understand that a pilgrimage or family holiday is a deeply personal journey filled with faith, love, and memories. Our mission is to ensure every moment of your travel across Gujarat is stress-free, comfortable, and sacred.
+      </p>
+      <ul class="check-list">
+        <li>✓ Specialized care for elderly pilgrims and kids</li>
+        <li>✓ Verified, polite, and knowledgeable local drivers</li>
+        <li>✓ 100% transparent pricing with zero hidden charges</li>
+        <li>✓ Customized temple darshan timings and meal stops</li>
+      </ul>
+      <div class="btn-group">
+        <a routerLink="/about" class="btn btn-primary">Learn More About Us</a>
+        <a routerLink="/enquiry" class="btn btn-outline">Enquire Custom Trip</a>
+      </div>
+    </div>
+    <div class="philosophy-image">
+      <img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=800&q=80" alt="Dwarkadhish Temple Pilgrimage" loading="lazy" class="rounded-img" />
+    </div>
+  </div>
+</section>
+
+<!-- Section 4: Testimonials -->
+<section class="section testimonials-section">
+  <div class="container">
+    <app-section-title
+      badge="Pilgrim Feedback"
+      title="What Devotees & Families Say"
+      subtitle="Real stories from travelers who experienced Gujarat with Heshiv Mobility.">
+    </app-section-title>
+
+    <div class="testimonials-grid">
+      <app-testimonial-card
+        *ngFor="let item of testimonials()"
+        [testimonial]="item">
+      </app-testimonial-card>
+    </div>
+  </div>
+</section>
+
+<!-- Section 5: Gallery Preview -->
+<section class="section gallery-section">
+  <div class="container">
+    <app-section-title
+      badge="Visual Journey"
+      title="Moments From Our Circuits"
+      subtitle="Sneak peek into the breathtaking spiritual sites and natural landscapes of Gujarat.">
+    </app-section-title>
+
+    <app-gallery-grid [items]="galleryPreview()" [showFilters]="false"></app-gallery-grid>
+
+    <div class="section-action">
+      <a routerLink="/gallery" class="btn btn-outline">Explore Complete Gallery &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- Section 6: Blog Preview -->
+<section class="section blog-section">
+  <div class="container">
+    <app-section-title
+      badge="Travel Insights"
+      title="Guides & Pilgrimage Tips"
+      subtitle="Read our latest travel guides for temple visits, festival advice, and itinerary planning.">
+    </app-section-title>
+
+    <div class="cards-grid">
+      <app-blog-card
+        *ngFor="let blog of featuredBlogs()"
+        [blog]="blog">
+      </app-blog-card>
+    </div>
+  </div>
+</section>
+
+<!-- Section 7: CTA Banner -->
+<app-cta-banner></app-cta-banner>

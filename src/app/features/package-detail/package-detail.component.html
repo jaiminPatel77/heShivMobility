@@ -1,0 +1,132 @@
+<!-- Loading Skeleton -->
+<div *ngIf="isLoading()" class="container section">
+  <app-loading-skeleton [count]="1" [columns]="1"></app-loading-skeleton>
+</div>
+
+<!-- Error State -->
+<div *ngIf="!isLoading() && (hasError() || !pkg())" class="container section">
+  <app-error-state
+    title="Package Not Found"
+    message="We could not find the requested package itinerary."
+    [showRetry]="false">
+  </app-error-state>
+</div>
+
+<!-- Package Detail View -->
+<div *ngIf="!isLoading() && pkg()" class="package-detail-wrapper">
+  <!-- Hero Section -->
+  <div class="detail-hero">
+    <div class="hero-bg" [style.background-image]="'url(' + imageService.processImageUrl(pkg()?.mainImage) + ')'">
+      <div class="overlay"></div>
+    </div>
+    <div class="container hero-content">
+      <!-- <app-breadcrumb [items]="[{ label: 'Packages', url: '/packages' }, { label: pkg()!.title }]"></app-breadcrumb> -->
+      
+      <div class="hero-tags">
+        <span class="badge">{{ pkg()?.category }}</span>
+        <span class="meta-tag">📍 {{ pkg()?.destination }}</span>
+        <span class="meta-tag">⏱️ {{ pkg()?.duration }}</span>
+      </div>
+
+      <h1 class="hero-title">{{ pkg()?.title }}</h1>
+      <p class="hero-short-desc">{{ pkg()?.shortDescription }}</p>
+
+      <div class="hero-price-bar">
+        <div class="price-info">
+          <span class="label">Starting Package Price</span>
+          <span class="val">₹{{ pkg()?.price | number }}</span>
+          <span class="per-person">per traveler</span>
+        </div>
+        <button (click)="scrollToEnquiry()" class="btn btn-primary btn-lg">
+          Enquire About This Tour
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Section -->
+  <section class="section detail-content">
+    <div class="container detail-grid">
+      <!-- Left Column: Itinerary Details -->
+      <div class="main-info">
+        <!-- Overview -->
+        <div class="content-block card-glass">
+          <h2 class="block-title">Tour Overview</h2>
+          <p class="desc-text">{{ pkg()?.description }}</p>
+        </div>
+
+        <!-- Key Highlights -->
+        <div class="content-block card-glass" *ngIf="pkg()?.highlights?.length">
+          <h2 class="block-title">Trip Highlights</h2>
+          <ul class="highlights-grid">
+            <li *ngFor="let item of pkg()?.highlights">
+              <span class="check-icon">✓</span>
+              <span>{{ item }}</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Inclusions & Exclusions -->
+        <div class="content-block card-glass inc-exc-grid">
+          <div class="inc-col">
+            <h3 class="col-head inc">Included In Package</h3>
+            <ul>
+              <li *ngFor="let inc of pkg()?.inclusions">
+                <span class="icon inc">✓</span> {{ inc }}
+              </li>
+            </ul>
+          </div>
+          <div class="exc-col">
+            <h3 class="col-head exc">Not Included</h3>
+            <ul>
+              <li *ngFor="let exc of pkg()?.exclusions">
+                <span class="icon exc">✕</span> {{ exc }}
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Photo Gallery -->
+        <div class="content-block card-glass" *ngIf="pkg()?.galleryImages?.length">
+          <h2 class="block-title">Package Gallery</h2>
+          <div class="gallery-thumbs">
+            <img
+              *ngFor="let img of pkg()?.galleryImages"
+              [src]="imageService.processImageUrl(img)"
+              [alt]="pkg()?.title"
+              (error)="imageService.handleImageError($event)"
+              loading="lazy"
+              class="thumb-img" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Enquiry Form Sidebar -->
+      <div id="enquiry-section" class="sidebar-info">
+        <app-enquiry-form [defaultPackageTitle]="pkg()?.title"></app-enquiry-form>
+      </div>
+    </div>
+
+    <!-- Related Packages -->
+    <div class="container related-section" *ngIf="relatedPackages().length">
+      <h2 class="related-title">Similar Recommended Packages</h2>
+      <div class="related-grid">
+        <app-package-card
+          *ngFor="let rel of relatedPackages()"
+          [pkg]="rel">
+        </app-package-card>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mobile Sticky Enquire Bar -->
+  <div class="mobile-sticky-cta hidden-md">
+    <div class="price-tag">
+      <span class="lbl">From</span>
+      <span class="amt">₹{{ pkg()?.price | number }}</span>
+    </div>
+    <button (click)="scrollToEnquiry()" class="btn btn-primary btn-sm">
+      Enquire Now
+    </button>
+  </div>
+</div>
