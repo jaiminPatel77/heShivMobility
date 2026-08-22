@@ -102,3 +102,16 @@
     }
   }
 }
+
+.map-embed {
+  margin-top: $spacing-6;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  box-shadow: $shadow-md;
+
+  iframe {
+    display: block;
+    width: 100%;
+    border-radius: $radius-lg;
+  }
+}

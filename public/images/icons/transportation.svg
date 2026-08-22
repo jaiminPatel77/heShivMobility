@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- Gold outer accent ring -->
+  <circle cx="60" cy="60" r="56" stroke="#D9A21B" stroke-width="2.5" fill="none"/>
+  <!-- White interior circle -->
+  <circle cx="60" cy="60" r="48" fill="#FFFFFF" stroke="#0B2A5B" stroke-width="2.5"/>
+  <!-- Bus body -->
+  <rect x="28" y="42" width="64" height="30" rx="6" stroke="#0B2A5B" stroke-width="2.5" fill="none"/>
+  <!-- Bus roof curve -->
+  <path d="M34 42 V38 C34 34 38 31 42 31 H78 C82 31 86 34 86 38 V42" stroke="#0B2A5B" stroke-width="2.5" fill="none"/>
+  <!-- Windshield -->
+  <path d="M80 42 V36 C80 34 82 34 84 34 L92 42" stroke="#0B2A5B" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  <!-- Windows -->
+  <rect x="34" y="46" width="9" height="10" rx="1.5" stroke="#0B2A5B" stroke-width="2" fill="none"/>
+  <rect x="47" y="46" width="9" height="10" rx="1.5" stroke="#0B2A5B" stroke-width="2" fill="none"/>
+  <rect x="60" y="46" width="9" height="10" rx="1.5" stroke="#0B2A5B" stroke-width="2" fill="none"/>
+  <rect x="73" y="46" width="12" height="10" rx="1.5" stroke="#0B2A5B" stroke-width="2" fill="none"/>
+  <!-- Bumper / lower trim -->
+  <line x1="28" y1="68" x2="92" y2="68" stroke="#0B2A5B" stroke-width="1.5"/>
+  <!-- Wheels -->
+  <circle cx="42" cy="76" r="6" stroke="#0B2A5B" stroke-width="2.5" fill="#FFFFFF"/>
+  <circle cx="42" cy="76" r="2.5" fill="#0B2A5B"/>
+  <circle cx="78" cy="76" r="6" stroke="#0B2A5B" stroke-width="2.5" fill="#FFFFFF"/>
+  <circle cx="78" cy="76" r="2.5" fill="#0B2A5B"/>
+  <!-- Wheel arches -->
+  <path d="M33 72 C33 72 36 68 42 68 C48 68 51 72 51 72" stroke="#0B2A5B" stroke-width="2" fill="none"/>
+  <path d="M69 72 C69 72 72 68 78 68 C84 68 87 72 87 72" stroke="#0B2A5B" stroke-width="2" fill="none"/>
+  <!-- Headlight -->
+  <rect x="88" y="48" width="4" height="6" rx="1" fill="#D9A21B"/>
+</svg>

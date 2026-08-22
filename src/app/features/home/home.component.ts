@@ -23,6 +23,7 @@ import { Blog } from '../../core/models/blog.model';
 import { GalleryItem } from '../../core/models/gallery.model';
 import { Testimonial } from '../../core/models/testimonial.model';
 import { SeoService } from '../../core/services/seo.service';
+import { SERVICE_HIGHLIGHTS, SERVICE_ICON_MAP, ServiceHighlight } from '../../core/models/service-highlight.model';
 
 @Component({
   selector: 'app-home',
@@ -51,6 +52,9 @@ export class HomeComponent implements OnInit {
   private galleryRepo: GalleryRepository = inject(GALLERY_REPOSITORY);
   private testimonialRepo: TestimonialRepository = inject(TESTIMONIAL_REPOSITORY);
 
+  /** Typed service highlight cards for the trust-highlights section */
+  readonly serviceHighlights: ServiceHighlight[] = SERVICE_HIGHLIGHTS;
+
   featuredPackages = signal<Package[]>([]);
   featuredBlogs = signal<Blog[]>([]);
   galleryPreview = signal<GalleryItem[]>([]);
@@ -58,6 +62,11 @@ export class HomeComponent implements OnInit {
 
   isLoadingPackages = signal<boolean>(true);
   hasPackageError = signal<boolean>(false);
+
+  /** Resolves an icon key to its asset path via the central icon map */
+  getIconPath(iconKey: string): string {
+    return SERVICE_ICON_MAP[iconKey] ?? '';
+  }
 
   ngOnInit() {
     this.seoService.updateSeo();

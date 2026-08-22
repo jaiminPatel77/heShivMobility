@@ -11,7 +11,7 @@ export const BUSINESS_INFO = {
   address: 'FF-28 Kanha Heights, Somatalav - Statue of unity road, Vadodara 390025, Gujarat, India',
   businessHours: 'Mon - Sun: 10:30 AM - 7:30 PM',
 
-  googleMapsUrl: 'https://maps.google.com/?q=Ahmedabad+Gujarat+Heshiv+Mobility',
+  googleMapsUrl: 'https://maps.google.com/?q=FF-28+Kanha+Heights,+Somatalav+-+Statue+of+unity+road,+Vadodara+390025,+Gujarat,+India',
 
   instagram: 'https://www.instagram.com/heshivmobility/',
   facebook: 'https://www.facebook.com/profile.php?id=61593078996813',

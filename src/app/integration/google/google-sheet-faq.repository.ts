@@ -5,7 +5,6 @@ import { map, catchError } from 'rxjs/operators';
 import { Faq } from '../../core/models/faq.model';
 import { FaqRepository } from '../../core/repositories/faq.repository';
 import { transformFaqRow } from './data-transformers';
-import { MOCK_FAQS } from '../../mock/faqs.mock';
 
 @Injectable({ providedIn: 'root' })
 export class GoogleSheetFaqRepository implements FaqRepository {
@@ -18,7 +17,7 @@ export class GoogleSheetFaqRepository implements FaqRepository {
 
   getFaqs(): Observable<Faq[]> {
     if (!this.apiUrl) {
-      return of(MOCK_FAQS.filter(f => f.active));
+      return of([]);
     }
 
     return this.http.get<{ success: boolean; data: any[] }>(`${this.apiUrl}?action=faqs`).pipe(
@@ -26,9 +25,9 @@ export class GoogleSheetFaqRepository implements FaqRepository {
         if (res && res.success && Array.isArray(res.data)) {
           return res.data.map(transformFaqRow).filter(f => f.active);
         }
-        return MOCK_FAQS.filter(f => f.active);
+        return [];
       }),
-      catchError(() => of(MOCK_FAQS.filter(f => f.active)))
+      catchError(() => of([]))
     );
   }
 

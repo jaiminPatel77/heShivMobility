@@ -24,10 +24,20 @@
     padding: $spacing-6;
     text-align: center;
     border-radius: $radius-lg;
+    transition: transform $transition-normal, box-shadow $transition-normal;
 
     .icon-box {
-      font-size: 2.5rem;
-      margin-bottom: $spacing-3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: $spacing-4;
+
+      .trust-icon {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        transition: transform $transition-normal;
+      }
     }
 
     h3 {
@@ -41,8 +51,35 @@
       color: $color-muted-text;
       line-height: 1.5;
     }
+
+    // Hover: subtle lift, shadow enhancement, icon scale
+    &:hover {
+      transform: translateY(-6px);
+      box-shadow: $shadow-lg;
+
+      .trust-icon {
+        transform: scale(1.08);
+      }
+    }
+  }
+
+  // Respect prefers-reduced-motion
+  @media (prefers-reduced-motion: reduce) {
+    .trust-card,
+    .trust-icon {
+      transition: none !important;
+    }
+
+    .trust-card:hover {
+      transform: none;
+
+      .trust-icon {
+        transform: none;
+      }
+    }
   }
 }
+
 
 .packages-section {
   background-color: $color-light-bg;

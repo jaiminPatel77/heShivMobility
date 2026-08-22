@@ -19,8 +19,8 @@ import { CommonModule } from '@angular/common';
   styles: [`
     .scroll-top-btn {
       position: fixed;
-      bottom: 92px;
-      right: 28px;
+      bottom: 164px;
+      right: 31px;
       width: 44px;
       height: 44px;
       background-color: #0B2A5B;

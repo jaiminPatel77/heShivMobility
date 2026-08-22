@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- Gold outer accent ring -->
+  <circle cx="60" cy="60" r="56" stroke="#D9A21B" stroke-width="2.5" fill="none"/>
+  <!-- White interior circle -->
+  <circle cx="60" cy="60" r="48" fill="#FFFFFF" stroke="#0B2A5B" stroke-width="2.5"/>
+  <!-- Clock face circle -->
+  <circle cx="60" cy="60" r="32" stroke="#0B2A5B" stroke-width="2.5" fill="none"/>
+  <!-- Inner ring -->
+  <circle cx="60" cy="60" r="29" stroke="#0B2A5B" stroke-width="0.8" fill="none"/>
+  <!-- Hour markers -->
+  <!-- 12 -->
+  <line x1="60" y1="32" x2="60" y2="38" stroke="#0B2A5B" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- 3 -->
+  <line x1="88" y1="60" x2="82" y2="60" stroke="#0B2A5B" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- 6 -->
+  <line x1="60" y1="88" x2="60" y2="82" stroke="#0B2A5B" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- 9 -->
+  <line x1="32" y1="60" x2="38" y2="60" stroke="#0B2A5B" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Minor hour markers -->
+  <!-- 1 -->
+  <line x1="74" y1="36" x2="71" y2="39" stroke="#0B2A5B" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- 2 -->
+  <line x1="84" y1="46" x2="81" y2="49" stroke="#0B2A5B" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- 4 -->
+  <line x1="84" y1="74" x2="81" y2="71" stroke="#0B2A5B" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- 5 -->
+  <line x1="74" y1="84" x2="71" y2="81" stroke="#0B2A5B" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- 7 -->
+  <line x1="46" y1="84" x2="49" y2="81" stroke="#0B2A5B" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- 8 -->
+  <line x1="36" y1="74" x2="39" y2="71" stroke="#0B2A5B" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- 10 -->
+  <line x1="36" y1="46" x2="39" y2="49" stroke="#0B2A5B" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- 11 -->
+  <line x1="46" y1="36" x2="49" y2="39" stroke="#0B2A5B" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Number labels -->
+  <text x="60" y="45" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" font-weight="700" fill="#0B2A5B">12</text>
+  <text x="79" y="63" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" font-weight="700" fill="#0B2A5B">3</text>
+  <text x="60" y="81" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" font-weight="700" fill="#0B2A5B">6</text>
+  <text x="41" y="63" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" font-weight="700" fill="#0B2A5B">9</text>
+  <!-- Hour hand (pointing to ~10) -->
+  <line x1="60" y1="60" x2="48" y2="44" stroke="#0B2A5B" stroke-width="3" stroke-linecap="round"/>
+  <!-- Minute hand (pointing to ~2) -->
+  <line x1="60" y1="60" x2="72" y2="42" stroke="#0B2A5B" stroke-width="2" stroke-linecap="round"/>
+  <!-- Center dot -->
+  <circle cx="60" cy="60" r="3" fill="#D9A21B"/>
+</svg>

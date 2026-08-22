@@ -5,7 +5,6 @@ import { map, catchError } from 'rxjs/operators';
 import { GalleryItem } from '../../core/models/gallery.model';
 import { GalleryRepository } from '../../core/repositories/gallery.repository';
 import { transformGalleryRow } from './data-transformers';
-import { MOCK_GALLERY } from '../../mock/gallery.mock';
 
 @Injectable({ providedIn: 'root' })
 export class GoogleSheetGalleryRepository implements GalleryRepository {
@@ -18,7 +17,7 @@ export class GoogleSheetGalleryRepository implements GalleryRepository {
 
   getGalleryItems(): Observable<GalleryItem[]> {
     if (!this.apiUrl) {
-      return of(MOCK_GALLERY.filter(g => g.active));
+      return of([]);
     }
 
     return this.http.get<{ success: boolean; data: any[] }>(`${this.apiUrl}?action=gallery`).pipe(
@@ -26,9 +25,9 @@ export class GoogleSheetGalleryRepository implements GalleryRepository {
         if (res && res.success && Array.isArray(res.data)) {
           return res.data.map(transformGalleryRow).filter(g => g.active);
         }
-        return MOCK_GALLERY.filter(g => g.active);
+        return [];
       }),
-      catchError(() => of(MOCK_GALLERY.filter(g => g.active)))
+      catchError(() => of([]))
     );
   }
 

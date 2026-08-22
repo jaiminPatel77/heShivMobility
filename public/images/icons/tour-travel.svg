@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- Gold outer accent ring -->
+  <circle cx="60" cy="60" r="56" stroke="#D9A21B" stroke-width="2.5" fill="none"/>
+  <!-- White interior circle -->
+  <circle cx="60" cy="60" r="48" fill="#FFFFFF" stroke="#0B2A5B" stroke-width="2.5"/>
+  <!-- Folded map base -->
+  <path d="M30 78 L45 72 L60 78 L75 72 L90 78 V58 L75 52 L60 58 L45 52 L30 58 Z" stroke="#0B2A5B" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+  <!-- Map fold lines -->
+  <line x1="45" y1="52" x2="45" y2="72" stroke="#0B2A5B" stroke-width="1.5" stroke-dasharray="3 2"/>
+  <line x1="60" y1="58" x2="60" y2="78" stroke="#0B2A5B" stroke-width="1.5" stroke-dasharray="3 2"/>
+  <line x1="75" y1="52" x2="75" y2="72" stroke="#0B2A5B" stroke-width="1.5" stroke-dasharray="3 2"/>
+  <!-- Location pin -->
+  <path d="M60 52 C60 52 48 42 48 35 C48 28.4 53.4 23 60 23 C66.6 23 72 28.4 72 35 C72 42 60 52 60 52 Z" stroke="#0B2A5B" stroke-width="2.5" fill="#0B2A5B"/>
+  <!-- Pin inner circle (white dot) -->
+  <circle cx="60" cy="35" r="5" fill="#FFFFFF"/>
+  <!-- Small gold accent on pin -->
+  <circle cx="60" cy="35" r="2.5" fill="#D9A21B"/>
+</svg>

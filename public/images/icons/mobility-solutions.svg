@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- Gold outer accent ring -->
+  <circle cx="60" cy="60" r="56" stroke="#D9A21B" stroke-width="2.5" fill="none"/>
+  <!-- White interior circle -->
+  <circle cx="60" cy="60" r="48" fill="#FFFFFF" stroke="#0B2A5B" stroke-width="2.5"/>
+  <!-- Shield shape -->
+  <path d="M60 28 L36 38 V58 C36 72 46 84 60 90 C74 84 84 72 84 58 V38 L60 28 Z" stroke="#0B2A5B" stroke-width="2.5" fill="#0B2A5B"/>
+  <!-- White inner shield highlight -->
+  <path d="M60 33 L41 41.5 V58 C41 69.5 49 79.5 60 85 C71 79.5 79 69.5 79 58 V41.5 L60 33 Z" fill="#FFFFFF"/>
+  <!-- Checkmark -->
+  <path d="M48 59 L56 67 L73 50" stroke="#0B2A5B" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

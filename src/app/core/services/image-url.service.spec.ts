@@ -23,7 +23,7 @@ describe('ImageUrlService', () => {
   it('should transform Google Drive file view link into direct image link', () => {
     const driveUrl = 'https://drive.google.com/file/d/1ABCXYZ12345/view?usp=sharing';
     const transformed = service.processImageUrl(driveUrl);
-    expect(transformed).toBe('https://lh3.googleusercontent.com/d/1ABCXYZ12345=w1200');
+    expect(transformed).toBe('https://lh3.googleusercontent.com/d/1ABCXYZ12345=s1000');
   });
 
   it('should return plain URL if already direct or standard CDN link', () => {

@@ -5,12 +5,11 @@ import { map, catchError } from 'rxjs/operators';
 import { Package } from '../../core/models/package.model';
 import { PackageRepository } from '../../core/repositories/package.repository';
 import { transformPackageRow } from './data-transformers';
-import { MOCK_PACKAGES } from '../../mock/packages.mock';
 
 @Injectable({ providedIn: 'root' })
 export class GoogleSheetPackageRepository implements PackageRepository {
   private http = inject(HttpClient);
-  private apiUrl = ''; // Set via environment or constructor injection
+  private apiUrl = '';
 
   setApiUrl(url: string) {
     this.apiUrl = url;
@@ -18,7 +17,7 @@ export class GoogleSheetPackageRepository implements PackageRepository {
 
   getPackages(): Observable<Package[]> {
     if (!this.apiUrl) {
-      return of(MOCK_PACKAGES.filter(p => p.active));
+      return of([]);
     }
 
     return this.http.get<{ success: boolean; data: any[] }>(`${this.apiUrl}?action=packages`).pipe(
@@ -26,16 +25,15 @@ export class GoogleSheetPackageRepository implements PackageRepository {
         if (res && res.success && Array.isArray(res.data)) {
           return res.data.map(transformPackageRow).filter(p => p.active);
         }
-        return MOCK_PACKAGES.filter(p => p.active);
+        return [];
       }),
-      catchError(() => of(MOCK_PACKAGES.filter(p => p.active)))
+      catchError(() => of([]))
     );
   }
 
   getPackageBySlug(slug: string): Observable<Package | null> {
     if (!this.apiUrl) {
-      const found = MOCK_PACKAGES.find(p => p.slug === slug && p.active) || null;
-      return of(found);
+      return of(null);
     }
 
     return this.http.get<{ success: boolean; data: any }>(`${this.apiUrl}?action=package&slug=${encodeURIComponent(slug)}`).pipe(
@@ -43,9 +41,9 @@ export class GoogleSheetPackageRepository implements PackageRepository {
         if (res && res.success && res.data) {
           return transformPackageRow(res.data);
         }
-        return MOCK_PACKAGES.find(p => p.slug === slug && p.active) || null;
+        return null;
       }),
-      catchError(() => of(MOCK_PACKAGES.find(p => p.slug === slug && p.active) || null))
+      catchError(() => of(null))
     );
   }
 

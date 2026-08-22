@@ -5,7 +5,6 @@ import { map, catchError } from 'rxjs/operators';
 import { Testimonial } from '../../core/models/testimonial.model';
 import { TestimonialRepository } from '../../core/repositories/testimonial.repository';
 import { transformTestimonialRow } from './data-transformers';
-import { MOCK_TESTIMONIALS } from '../../mock/testimonials.mock';
 
 @Injectable({ providedIn: 'root' })
 export class GoogleSheetTestimonialRepository implements TestimonialRepository {
@@ -18,7 +17,7 @@ export class GoogleSheetTestimonialRepository implements TestimonialRepository {
 
   getTestimonials(): Observable<Testimonial[]> {
     if (!this.apiUrl) {
-      return of(MOCK_TESTIMONIALS.filter(t => t.active));
+      return of([]);
     }
 
     return this.http.get<{ success: boolean; data: any[] }>(`${this.apiUrl}?action=testimonials`).pipe(
@@ -26,9 +25,9 @@ export class GoogleSheetTestimonialRepository implements TestimonialRepository {
         if (res && res.success && Array.isArray(res.data)) {
           return res.data.map(transformTestimonialRow).filter(t => t.active);
         }
-        return MOCK_TESTIMONIALS.filter(t => t.active);
+        return [];
       }),
-      catchError(() => of(MOCK_TESTIMONIALS.filter(t => t.active)))
+      catchError(() => of([]))
     );
   }
 }

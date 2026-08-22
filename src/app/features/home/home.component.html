@@ -5,32 +5,24 @@
 <section class="section trust-highlights-section">
   <div class="container">
     <div class="trust-grid">
-      <div class="trust-card card-glass">
-        <div class="icon-box">🚘</div>
-        <h3>Comfortable Travel</h3>
-        <p>Squeaky clean, fully sanitized AC vehicles with polite, experienced local drivers.</p>
-      </div>
-
-      <div class="trust-card card-glass">
-        <div class="icon-box">👨‍👩‍👧‍👦</div>
-        <h3>Family Friendly</h3>
-        <p>Tailored schedules, patient travel pace, and elder assistance at all temple spots.</p>
-      </div>
-
-      <div class="trust-card card-glass">
-        <div class="icon-box">🛡️</div>
-        <h3>Reliable Service</h3>
-        <p>Punctual pickups, transparent pricing, and 24/7 dedicated travel support helpline.</p>
-      </div>
-
-      <div class="trust-card card-glass">
-        <div class="icon-box">🗺️</div>
-        <h3>Customized Trips</h3>
-        <p>Flexible itineraries tailored precisely to your family size, budget, and dates.</p>
+      <div class="trust-card card-glass" *ngFor="let highlight of serviceHighlights">
+        <div class="icon-box">
+          <img
+            [src]="getIconPath(highlight.icon)"
+            [alt]="''"
+            aria-hidden="true"
+            class="trust-icon"
+            width="80"
+            height="80"
+            loading="eager" />
+        </div>
+        <h3>{{ highlight.title }}</h3>
+        <p>{{ highlight.description }}</p>
       </div>
     </div>
   </div>
 </section>
+
 
 <!-- Section 2: Featured Packages -->
 <section class="section packages-section">
