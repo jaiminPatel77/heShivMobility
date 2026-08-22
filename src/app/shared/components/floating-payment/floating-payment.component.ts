@@ -56,7 +56,7 @@ import { BUSINESS_INFO } from '../../../core/config/business-info';
 
           <div class="qr-container">
             <img
-              src="images/payment-qr.png"
+              [src]="qrImageUrl()"
               alt="Heshiv Mobility Google Pay UPI QR Code"
               class="qr-image"
               loading="eager" />
@@ -343,8 +343,11 @@ import { BUSINESS_INFO } from '../../../core/config/business-info';
 export class FloatingPaymentComponent {
   businessInfo = BUSINESS_INFO;
   isOpen = signal<boolean>(false);
+  qrImageUrl = signal<string>('images/payment-qr.png');
 
   openModal() {
+    // Append timestamp parameter to force browser to fetch the updated image file directly
+    this.qrImageUrl.set(`images/payment-qr.png?v=${Date.now()}`);
     this.isOpen.set(true);
   }
 
