@@ -25,7 +25,7 @@ import { SeoService } from '../../core/services/seo.service';
     <div class="page-header">
       <div class="container">
         <!-- <app-breadcrumb [items]="[{ label: 'Blog & Guides' }]"></app-breadcrumb> -->
-        <h1 class="page-title">Gujarat Travel & Pilgrimage Blog</h1>
+        <h1 class="page-title">Travel & Pilgrimage Blog</h1>
         <p class="page-subtitle">Expert tips, temple guides, festival news, and itinerary insights</p>
       </div>
     </div>

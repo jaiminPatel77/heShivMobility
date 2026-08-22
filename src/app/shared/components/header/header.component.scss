@@ -74,19 +74,17 @@
   gap: $spacing-3;
   color: $color-white;
 
-  .logo-badge {
-    width: 42px;
-    height: 42px;
-    background: linear-gradient(135deg, $color-gold, $color-warm-gold);
-    color: $color-primary-navy;
-    font-family: $font-heading;
-    font-weight: $font-weight-bold;
-    font-size: $font-size-lg;
-    border-radius: $radius-md;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: $shadow-gold;
+  .logo-img {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+    border-radius: $radius-sm;
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.15));
+    transition: transform 0.3s ease;
+  }
+
+  &:hover .logo-img {
+    transform: scale(1.05);
   }
 
   .brand-text {
@@ -104,11 +102,10 @@
   }
 
   .brand-sub {
-    font-size: 0.7rem;
+    font-size: 0.9rem;
     color: $color-warm-gold;
     font-weight: $font-weight-medium;
     letter-spacing: 0.05em;
-    text-transform: uppercase;
   }
 }
 

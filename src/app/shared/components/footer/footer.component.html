@@ -3,10 +3,10 @@
     <!-- Brand Info Column -->
     <div class="footer-col brand-col">
       <div class="footer-brand">
-        <div class="logo-badge">HS</div>
+        <img [src]="businessInfo.logoPath" [alt]="businessInfo.companyName + ' Logo'" class="logo-img">
         <span class="brand-name">{{ businessInfo.companyName }}</span>
       </div>
-      <p class="tagline">{{ businessInfo.tagline }}</p>
+      <p class="tagline"> <i> {{ businessInfo.tagBaseLine }} </i> </p>
       <p class="description">{{ businessInfo.supportingText }}</p>
       <div class="social-links">
         <a [href]="businessInfo.facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
@@ -36,7 +36,7 @@
     </div>
 
     <!-- Tour Categories Column -->
-    <div class="footer-col">
+    <!-- <div class="footer-col">
       <h3 class="col-title">Popular Circuits</h3>
       <ul class="footer-links">
         <li><a routerLink="/packages" [queryParams]="{category: 'Pilgrimage'}">Somnath & Dwarka Yatra</a></li>
@@ -45,7 +45,7 @@
         <li><a routerLink="/packages" [queryParams]="{category: 'Spiritual'}">Gir Lion & Somnath Combo</a></li>
         <li><a routerLink="/enquiry">Customized Pilgrimage</a></li>
       </ul>
-    </div>
+    </div> -->
 
     <!-- Contact & Business Info Column -->
     <div class="footer-col contact-col">
@@ -74,7 +74,7 @@
   <!-- Copyright Bottom Bar -->
   <div class="footer-bottom">
     <div class="container bottom-content">
-      <p>&copy; {{ currentYear }} {{ businessInfo.companyName }}. All Rights Reserved. {{ businessInfo.tagline }}</p>
+      <p>&copy; {{ currentYear }} {{ businessInfo.companyName }}. All Rights Reserved. <i> {{ businessInfo.tagBaseLine }} </i></p>
       <div class="bottom-links">
         <a routerLink="/privacy-policy">Privacy Policy</a>
         <a routerLink="/terms-and-conditions">Terms & Conditions</a>

@@ -27,10 +27,10 @@
   <div class="container navbar-content">
     <!-- Brand Logo & Name -->
     <a routerLink="/" class="brand-logo" (click)="closeMobileMenu()">
-      <div class="logo-badge">HS</div>
+      <img [src]="businessInfo.logoPath" class="logo-img">
       <div class="brand-text">
         <span class="brand-name">{{ businessInfo.companyName }}</span>
-        <span class="brand-sub">{{ businessInfo.tagline }}</span>
+        <span class="brand-sub"> <i> {{ businessInfo.tagBaseLine }} </i> </span>
       </div>
     </a>
 
@@ -67,7 +67,7 @@
     <div class="drawer-header">
       <div class="brand-text">
         <span class="brand-name">{{ businessInfo.companyName }}</span>
-        <span class="brand-sub">{{ businessInfo.tagline }}</span>
+        <span class="brand-sub">{{ businessInfo.tagBaseLine }}</span>
       </div>
       <button class="close-btn" (click)="closeMobileMenu()" aria-label="Close menu">&times;</button>
     </div>

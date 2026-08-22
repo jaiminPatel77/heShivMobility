@@ -18,7 +18,7 @@
     }
 
     @media (min-width: $breakpoint-lg) {
-      grid-template-columns: 2fr 1fr 1fr 1.5fr;
+      grid-template-columns: 2fr 1fr 1fr;
     }
   }
 
@@ -33,18 +33,12 @@
     align-items: center;
     gap: $spacing-3;
 
-    .logo-badge {
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(135deg, $color-gold, $color-warm-gold);
-      color: $color-primary-navy;
-      font-family: $font-heading;
-      font-weight: $font-weight-bold;
-      font-size: $font-size-lg;
-      border-radius: $radius-md;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .logo-img {
+      height: 44px;
+      width: auto;
+      object-fit: contain;
+      border-radius: $radius-sm;
+      filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.15));
     }
 
     .brand-name {

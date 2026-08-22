@@ -24,9 +24,9 @@ import { SeoService } from '../../core/services/seo.service';
       <div class="container grid-2">
         <div class="about-text">
           <span class="badge">Who We Are</span>
-          <h2>Your Trusted Travel Partner for Pilgrimages and Family Yatras Across Gujarat</h2>
+          <h2>Your Trusted Travel Partner for Pilgrimages and Family Yatras Across India</h2>
           <p>
-            <strong>{{ businessInfo.companyName }}</strong> is a premium travel mobility agency dedicated to providing care-driven, comfortable, and reliable tour services. We specialize in sacred pilgrimages, family tours, group yatras, and custom spiritual journeys across Gujarat and neighboring circuits.
+            <strong>{{ businessInfo.companyName }}</strong> is a premium travel mobility agency dedicated to providing care-driven, comfortable, and reliable tour services. We specialize in sacred pilgrimages, family tours, group yatras, and custom spiritual journeys across India and neighboring circuits.
           </p>
           <p>
             Whether visiting Somnath Jyotirlinga, Lord Krishna’s Jagat Mandir in Dwarka, the majestic Statue of Unity in Kevadia, or the endless White Rann of Kutch, our mission is to ensure every member of your family travels in peace, dignity, and absolute comfort.
@@ -52,7 +52,7 @@ import { SeoService } from '../../core/services/seo.service';
           <div class="pillar-card card-glass">
             <div class="p-icon">👁️</div>
             <h3>Our Vision</h3>
-            <p>To be Gujarat’s most trusted and respected pilgrimage travel brand, celebrated for customer empathy, punctual AC mobility, and ethical hospitality.</p>
+            <p>To be India’s most trusted and respected pilgrimage travel brand, celebrated for customer empathy, punctual AC mobility, and ethical hospitality.</p>
           </div>
 
           <div class="pillar-card card-glass">

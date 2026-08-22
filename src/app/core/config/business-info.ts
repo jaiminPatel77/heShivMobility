@@ -1,6 +1,7 @@
 export const BUSINESS_INFO = {
   companyName: 'Heshiv Mobility',
   tagline: 'Moving People With Care',
+  tagBaseLine: 'YourRide OurCare',
   supportingText: 'Pilgrimage • Family Tours • Group Tours • Spiritual Journeys',
 
   phone: '+91 97263 33195',
@@ -16,7 +17,7 @@ export const BUSINESS_INFO = {
   facebook: 'https://www.facebook.com/profile.php?id=61593078996813',
   youtube: 'https://www.youtube.com/@heshivmobility',
 
-  logoPath: 'assets/images/logo.svg',
+  logoPath: 'images/logo.png',
   faviconPath: 'public/favicon.ico',
 
   websiteUrl: 'https://heshivmobility.com'

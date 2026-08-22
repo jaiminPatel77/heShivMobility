@@ -4,7 +4,7 @@
  */
 
 const CONFIG = {
-  SPREADSHEET_ID: 'YOUR_SPREADSHEET_ID', // Replace with actual Google Sheet ID
+  SPREADSHEET_ID: '1AB6jTgqGJjmFpdv0f-StAaJr21k-Y_L9HgnSU2S-CY4',
   SHEETS: {
     PACKAGES: 'Packages',
     BLOGS: 'Blogs',
@@ -33,7 +33,7 @@ function doGet(e) {
       case 'package':
         if (!slug) return createJsonResponse(false, 'Slug parameter required', null);
         const packages = getSheetDataAsJson(CONFIG.SHEETS.PACKAGES);
-        responseData = packages.find(p => p.Slug === slug && String(p.Active).toUpperCase() === 'TRUE') || null;
+        responseData = packages.find(p => matchSlug(p, slug)) || null;
         break;
 
       case 'blogs':
@@ -43,7 +43,7 @@ function doGet(e) {
       case 'blog':
         if (!slug) return createJsonResponse(false, 'Slug parameter required', null);
         const blogs = getSheetDataAsJson(CONFIG.SHEETS.BLOGS);
-        responseData = blogs.find(b => b.Slug === slug && String(b.Active).toUpperCase() === 'TRUE') || null;
+        responseData = blogs.find(b => matchSlug(b, slug)) || null;
         break;
 
       case 'gallery':
@@ -101,7 +101,7 @@ function doPost(e) {
     const message = payload.message ? String(payload.message).trim().substring(0, 500) : '';
 
     const enquiryId = 'ENQ-' + new Date().getTime();
-    const createdAt = new Date().toISOString();
+    const createdAt = Utilities.formatDate(new Date(), 'Asia/Kolkata', 'dd-MM-yyyy hh:mm a');
     const status = 'New';
     const source = 'Website';
 
@@ -127,6 +127,31 @@ function doPost(e) {
 }
 
 /**
+ * Checks if a row matches the given slug (either by Slug column or slugified Title).
+ */
+function matchSlug(item, targetSlug) {
+  if (!item) return false;
+  const isRowActive = item.Active === undefined || String(item.Active).trim() === '' || String(item.Active).toUpperCase() === 'TRUE';
+  if (!isRowActive) return false;
+
+  const rowSlug = item.Slug ? String(item.Slug).trim().toLowerCase() : slugify(item.Title);
+  return rowSlug === String(targetSlug).trim().toLowerCase();
+}
+
+/**
+ * Helper function to generate URL slug from text.
+ */
+function slugify(text) {
+  if (!text) return '';
+  return text.toString().toLowerCase().trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w\-]+/g, '')
+    .replace(/\-\-+/g, '-')
+    .replace(/^-+/, '')
+    .replace(/-+$/, '');
+}
+
+/**
  * Utility function to parse a sheet into an array of objects based on header row.
  */
 function getSheetDataAsJson(sheetName) {
@@ -147,8 +172,8 @@ function getSheetDataAsJson(sheetName) {
     });
     return obj;
   }).filter(item => {
-    // Filter active items for public endpoints
-    return item.Active === undefined || String(item.Active).toUpperCase() === 'TRUE';
+    // Filter active items (if Active column is present or omitted, default to true)
+    return item.Active === undefined || String(item.Active).trim() === '' || String(item.Active).toUpperCase() === 'TRUE';
   });
 }
 

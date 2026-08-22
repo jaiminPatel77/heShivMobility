@@ -32,7 +32,8 @@ export class GoogleSheetEnquiryRepository implements EnquiryRepository {
 
     return this.http.post<{ success: boolean; message: string; data?: { enquiryId?: string } }>(
       `${this.apiUrl}?action=enquiry`,
-      JSON.stringify(enquiry)
+      JSON.stringify(enquiry),
+      { headers: { 'Content-Type': 'text/plain;charset=utf-8' } }
     ).pipe(
       map(res => ({
         success: res.success,
