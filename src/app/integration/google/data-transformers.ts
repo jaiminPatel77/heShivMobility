@@ -1,4 +1,4 @@
-import { Package } from '../../core/models/package.model';
+import { Package, PriceTier } from '../../core/models/package.model';
 import { Blog } from '../../core/models/blog.model';
 import { GalleryItem } from '../../core/models/gallery.model';
 import { Faq } from '../../core/models/faq.model';
@@ -89,11 +89,78 @@ export function parseDateString(value: any, fallback = ''): string {
   return str;
 }
 
+export interface ParsedPriceInfo {
+  startingPrice: number;
+  displayPrice?: string;
+  priceTiers: PriceTier[];
+}
+
+export function parsePriceInfo(rawPrice: any): ParsedPriceInfo {
+  if (rawPrice === null || rawPrice === undefined || String(rawPrice).trim() === '') {
+    return { startingPrice: 0, priceTiers: [] };
+  }
+
+  if (typeof rawPrice === 'number') {
+    return { startingPrice: rawPrice, priceTiers: [] };
+  }
+
+  const str = String(rawPrice).trim();
+
+  // If string contains multiple pricing tiers (e.g. "Above Sofa: 6999 | Below Sofa: 7999" or "Above Sofa: ₹6,999 / Below Sofa: ₹7,999")
+  if (/[:|/]|Above|Below|Sofa|Sleeper|Seater|Lower|Upper/i.test(str) && /[0-9]/.test(str)) {
+    const parts = str.split(/\s*[\r\n|/]\s*/).map(p => p.trim()).filter(Boolean);
+    const tiers: PriceTier[] = [];
+    let lowestPrice = Infinity;
+
+    for (const part of parts) {
+      const colonSplit = part.split(/\s*:\s*/);
+      if (colonSplit.length >= 2) {
+        const label = colonSplit[0].trim();
+        const priceNum = parseNumber(colonSplit[1], 0);
+        if (priceNum > 0) {
+          tiers.push({
+            label,
+            price: priceNum,
+            formattedPrice: `₹${priceNum.toLocaleString('en-IN')}`
+          });
+          if (priceNum < lowestPrice) lowestPrice = priceNum;
+        }
+      } else {
+        const priceNum = parseNumber(part, 0);
+        const label = part.replace(/[0-9₹,.-]/g, '').trim();
+        if (priceNum > 0) {
+          tiers.push({
+            label: label || 'Option',
+            price: priceNum,
+            formattedPrice: `₹${priceNum.toLocaleString('en-IN')}`
+          });
+          if (priceNum < lowestPrice) lowestPrice = priceNum;
+        }
+      }
+    }
+
+    if (tiers.length > 0) {
+      return {
+        startingPrice: lowestPrice === Infinity ? parseNumber(str, 0) : lowestPrice,
+        displayPrice: str,
+        priceTiers: tiers
+      };
+    }
+  }
+
+  const singlePrice = parseNumber(str, 0);
+  return {
+    startingPrice: singlePrice,
+    priceTiers: []
+  };
+}
+
 export function transformPackageRow(row: any): Package {
   const title = parseString(row.Title, 'Untitled Package');
   const slug = parseString(row.Slug) || slugify(title);
   const mainImage = parseString(row.MainImage);
   const shortDesc = parseString(row.ShortDescription);
+  const priceInfo = parsePriceInfo(row.Price);
 
   return {
     packageId: parseString(row.PackageId, `pkg-${slug}`),
@@ -103,7 +170,9 @@ export function transformPackageRow(row: any): Package {
     description: parseString(row.Description, shortDesc),
     destination: parseString(row.Destination, 'Gujarat'),
     duration: parseString(row.Duration, 'Flexible'),
-    price: parseNumber(row.Price, 0),
+    price: priceInfo.startingPrice,
+    displayPrice: priceInfo.displayPrice,
+    priceTiers: priceInfo.priceTiers,
     currency: parseString(row.Currency, 'INR'),
     mainImage: mainImage,
     galleryImages: parseArray(row.GalleryImages),

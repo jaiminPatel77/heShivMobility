@@ -91,6 +91,21 @@
       .val { font-family: $font-heading; font-size: 2rem; font-weight: 800; color: $color-gold; }
       .per-person { font-size: 0.7rem; color: rgba(255, 255, 255, 0.6); }
     }
+
+    .hero-tiers-group {
+      display: flex;
+      align-items: center;
+      gap: $spacing-6;
+      flex-wrap: wrap;
+
+      .hero-tier-item {
+        display: flex;
+        flex-direction: column;
+        .label { font-size: 0.8rem; color: rgba(255, 255, 255, 0.9); font-weight: $font-weight-medium; }
+        .val { font-family: $font-heading; font-size: 1.75rem; font-weight: 800; color: $color-gold; }
+        .per-person { font-size: 0.7rem; color: rgba(255, 255, 255, 0.6); }
+      }
+    }
   }
 }
 
@@ -289,6 +304,53 @@
 
     .act-text {
       word-break: break-word;
+    }
+  }
+}
+
+/* ── Pricing & Seating Tiers Grid ── */
+.price-tiers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: $spacing-4;
+  margin-top: $spacing-3;
+}
+
+.tier-card {
+  display: flex;
+  align-items: center;
+  gap: $spacing-4;
+  padding: $spacing-4 $spacing-5;
+  background: rgba(#0B2A5B, 0.03);
+  border: 1px solid rgba(#0B2A5B, 0.1);
+  border-radius: $radius-lg;
+  border-left: 4px solid $color-gold;
+
+  .tier-badge-icon {
+    font-size: 1.5rem;
+  }
+
+  .tier-details {
+    display: flex;
+    flex-direction: column;
+
+    .tier-title {
+      font-size: $font-size-sm;
+      font-weight: $font-weight-bold;
+      color: $color-primary-navy;
+    }
+
+    .tier-amount {
+      font-family: $font-heading;
+      font-size: $font-size-lg;
+      font-weight: $font-weight-bold;
+      color: $color-primary-navy;
+
+      small {
+        font-size: 0.7rem;
+        font-weight: $font-weight-medium;
+        color: $color-muted-text;
+      }
     }
   }
 }

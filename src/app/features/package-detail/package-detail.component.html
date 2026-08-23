@@ -5,9 +5,7 @@
 
 <!-- Error State -->
 <div *ngIf="!isLoading() && (hasError() || !pkg())" class="container section">
-  <app-error-state
-    title="Package Not Found"
-    message="We could not find the requested package itinerary."
+  <app-error-state title="Package Not Found" message="We could not find the requested package itinerary."
     [showRetry]="false">
   </app-error-state>
 </div>
@@ -32,11 +30,24 @@
       <p class="hero-short-desc">{{ pkg()?.shortDescription }}</p>
 
       <div class="hero-price-bar">
-        <div class="price-info">
-          <span class="label">Starting Package Price</span>
-          <span class="val">₹{{ pkg()?.price | number }}</span>
-          <span class="per-person">per traveler</span>
-        </div>
+        <ng-container *ngIf="!pkg()?.priceTiers?.length">
+          <div class="price-info">
+            <span class="label">Starting Package Price</span>
+            <span class="val">₹{{ pkg()?.price | number }}</span>
+            <span class="per-person">per traveler</span>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="pkg()?.priceTiers?.length">
+          <div class="hero-tiers-group">
+            <div *ngFor="let tier of pkg()?.priceTiers" class="hero-tier-item">
+              <span class="label">{{ tier.label }}</span>
+              <span class="val">{{ tier.formattedPrice }}</span>
+              <span class="per-person">per traveler</span>
+            </div>
+          </div>
+        </ng-container>
+
         <button (click)="scrollToEnquiry()" class="btn btn-primary btn-lg">
           Enquire About This Tour
         </button>
@@ -61,9 +72,7 @@
 
           <!-- Day-Wise Timeline Itinerary -->
           <div class="itinerary-timeline" *ngIf="parsedItinerary().hasItinerary">
-            <div
-              *ngFor="let day of parsedItinerary().days; let i = index"
-              class="timeline-item"
+            <div *ngFor="let day of parsedItinerary().days; let i = index" class="timeline-item"
               [class.expanded]="isDayExpanded(i)">
 
               <!-- Timeline Marker (Desktop Bullet & Line) -->
@@ -75,33 +84,20 @@
               <!-- Timeline Content Card / Accordion -->
               <div class="timeline-card">
                 <!-- Day Header Toggle -->
-                <button
-                  type="button"
-                  class="day-header-btn"
-                  (click)="toggleDay(i)"
-                  [attr.aria-expanded]="isDayExpanded(i)"
-                  [attr.aria-controls]="'day-content-' + i">
+                <button type="button" class="day-header-btn" (click)="toggleDay(i)"
+                  [attr.aria-expanded]="isDayExpanded(i)" [attr.aria-controls]="'day-content-' + i">
                   <div class="day-badge-group">
                     <span class="day-main-badge">{{ day.dayHeaderMain }}</span>
                     <span class="day-sub-title" *ngIf="day.dayHeaderSub">{{ day.dayHeaderSub }}</span>
                   </div>
-                  <svg
-                    class="chevron-icon"
-                    [class.rotate]="isDayExpanded(i)"
-                    aria-hidden="true"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2">
-                    <polyline points="6 9 12 15 18 9"/>
+                  <svg class="chevron-icon" [class.rotate]="isDayExpanded(i)" aria-hidden="true" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9" />
                   </svg>
                 </button>
 
                 <!-- Day Content Body -->
-                <div
-                  [id]="'day-content-' + i"
-                  class="day-body"
-                  *ngIf="isDayExpanded(i)">
+                <div [id]="'day-content-' + i" class="day-body" *ngIf="isDayExpanded(i)">
 
                   <p class="day-text" *ngIf="day.descriptionText">{{ day.descriptionText }}</p>
 
@@ -116,6 +112,20 @@
             </div>
           </div>
         </div>
+
+        <!-- Pricing & Seating Options (if multiple price tiers specified) -->
+        <!-- <div class="content-block card-glass" *ngIf="pkg()?.priceTiers?.length">
+          <h2 class="block-title">Pricing & Seating Options</h2>
+          <div class="price-tiers-grid">
+            <div *ngFor="let tier of pkg()?.priceTiers" class="tier-card">
+              <div class="tier-badge-icon">🛋️</div>
+              <div class="tier-details">
+                <span class="tier-title">{{ tier.label }}</span>
+                <span class="tier-amount">{{ tier.formattedPrice }} <small>per traveler</small></span>
+              </div>
+            </div>
+          </div>
+        </div> -->
 
         <!-- Key Highlights -->
         <div class="content-block card-glass" *ngIf="pkg()?.highlights?.length">
@@ -152,13 +162,8 @@
         <div class="content-block card-glass" *ngIf="pkg()?.galleryImages?.length">
           <h2 class="block-title">Package Gallery</h2>
           <div class="gallery-thumbs">
-            <img
-              *ngFor="let img of pkg()?.galleryImages"
-              [src]="imageService.processImageUrl(img)"
-              [alt]="pkg()?.title"
-              (error)="imageService.handleImageError($event)"
-              loading="lazy"
-              class="thumb-img" />
+            <img *ngFor="let img of pkg()?.galleryImages" [src]="imageService.processImageUrl(img)" [alt]="pkg()?.title"
+              (error)="imageService.handleImageError($event)" loading="lazy" class="thumb-img" />
           </div>
         </div>
       </div>
@@ -173,9 +178,7 @@
     <div class="container related-section" *ngIf="relatedPackages().length">
       <h2 class="related-title">Similar Recommended Packages</h2>
       <div class="related-grid">
-        <app-package-card
-          *ngFor="let rel of relatedPackages()"
-          [pkg]="rel">
+        <app-package-card *ngFor="let rel of relatedPackages()" [pkg]="rel">
         </app-package-card>
       </div>
     </div>

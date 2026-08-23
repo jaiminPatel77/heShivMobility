@@ -1,3 +1,9 @@
+export interface PriceTier {
+  label: string;
+  price: number;
+  formattedPrice: string;
+}
+
 export interface Package {
   packageId: string;
   slug: string;
@@ -7,6 +13,8 @@ export interface Package {
   destination: string;
   duration: string;
   price: number;
+  displayPrice?: string;
+  priceTiers?: PriceTier[];
   currency: string;
   mainImage: string;
   galleryImages: string[];

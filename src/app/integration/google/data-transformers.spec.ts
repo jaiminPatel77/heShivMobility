@@ -5,6 +5,7 @@ import {
   parseArray,
   parseString,
   parseDateString,
+  parsePriceInfo,
   transformPackageRow,
   transformBlogRow
 } from './data-transformers';
@@ -84,6 +85,46 @@ describe('Google Sheets Data Transformers', () => {
       expect(parseDateString(null)).toBe('');
       expect(parseDateString(undefined)).toBe('');
       expect(parseDateString('')).toBe('');
+    });
+  });
+
+  describe('parsePriceInfo', () => {
+    it('should parse single numeric prices correctly', () => {
+      const res = parsePriceInfo('8999');
+      expect(res.startingPrice).toBe(8999);
+      expect(res.priceTiers).toEqual([]);
+    });
+
+    it('should parse multi-tier prices with pipe delimiter (Above Sofa | Below Sofa)', () => {
+      const input = 'Above Sofa: 6999 | Below Sofa: 7999';
+      const res = parsePriceInfo(input);
+
+      expect(res.startingPrice).toBe(6999);
+      expect(res.priceTiers.length).toBe(2);
+      expect(res.priceTiers[0]).toEqual({
+        label: 'Above Sofa',
+        price: 6999,
+        formattedPrice: '₹6,999'
+      });
+      expect(res.priceTiers[1]).toEqual({
+        label: 'Below Sofa',
+        price: 7999,
+        formattedPrice: '₹7,999'
+      });
+    });
+
+    it('should parse multi-tier prices with slash delimiter and rupee symbols', () => {
+      const input = 'Above Sofa: ₹6,999 / Below Sofa: ₹7,999';
+      const res = parsePriceInfo(input);
+
+      expect(res.startingPrice).toBe(6999);
+      expect(res.priceTiers.length).toBe(2);
+    });
+
+    it('should return 0 startingPrice for invalid or empty input', () => {
+      expect(parsePriceInfo(null).startingPrice).toBe(0);
+      expect(parsePriceInfo(undefined).startingPrice).toBe(0);
+      expect(parsePriceInfo('').startingPrice).toBe(0);
     });
   });
 });

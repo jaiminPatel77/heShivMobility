@@ -74,8 +74,16 @@ import { getDestinationSummary, DestinationSummary } from '../../utils/destinati
         <!-- Card Footer -->
         <div class="card-footer">
           <div class="price-box">
-            <span class="price-label">Starting from</span>
-            <span class="price-value">₹{{ pkg.price | number }}</span>
+            <ng-container *ngIf="!pkg.priceTiers?.length">
+              <span class="price-label">Starting from</span>
+              <span class="price-value">₹{{ pkg.price | number }}</span>
+            </ng-container>
+            <div class="tier-pills" *ngIf="pkg.priceTiers?.length">
+              <div *ngFor="let tier of pkg.priceTiers" class="tier-pill">
+                <span class="tier-name">{{ tier.label }}:</span>
+                <span class="tier-val">{{ tier.formattedPrice }}</span>
+              </div>
+            </div>
           </div>
 
           <div class="card-actions">
@@ -281,8 +289,8 @@ import { getDestinationSummary, DestinationSummary } from '../../utils/destinati
     /* ── Footer ── */
     .card-footer {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
+      gap: $spacing-3;
       padding-top: $spacing-4;
       margin-top: $spacing-3;
       border-top: 1px solid $color-border;
@@ -291,6 +299,7 @@ import { getDestinationSummary, DestinationSummary } from '../../utils/destinati
     .price-box {
       display: flex;
       flex-direction: column;
+      width: 100%;
 
       .price-label {
         font-size: 0.75rem;
@@ -299,18 +308,53 @@ import { getDestinationSummary, DestinationSummary } from '../../utils/destinati
 
       .price-value {
         font-family: $font-heading;
-        font-size: $font-size-2xl;
+        font-size: 1.5rem;
         font-weight: $font-weight-bold;
         color: $color-primary-navy;
+        line-height: 1.2;
+      }
+
+      .tier-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        width: 100%;
+
+        .tier-pill {
+          font-size: 0.75rem;
+          background: rgba(#0B2A5B, 0.04);
+          padding: 4px 10px;
+          border-radius: $radius-sm;
+          border: 1px solid rgba(#0B2A5B, 0.1);
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          flex: 1 1 calc(50% - 6px);
+          justify-content: space-between;
+
+          .tier-name {
+            color: $color-muted-text;
+            font-weight: $font-weight-medium;
+          }
+
+          .tier-val {
+            color: $color-primary-navy;
+            font-weight: $font-weight-bold;
+          }
+        }
       }
     }
 
     .card-actions {
       display: flex;
       gap: $spacing-2;
+      width: 100%;
 
       .btn-sm {
-        padding: $spacing-2 $spacing-4;
+        flex: 1;
+        justify-content: center;
+        text-align: center;
+        padding: $spacing-2 $spacing-3;
         font-size: $font-size-xs;
       }
     }
