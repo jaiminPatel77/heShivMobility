@@ -159,7 +159,7 @@ function getSheetDataAsJson(sheetName) {
   const sheet = ss.getSheetByName(sheetName);
   if (!sheet) return [];
 
-  const data = sheet.getDataRange().getValues();
+  const data = sheet.getDataRange().getDisplayValues();
   if (data.length <= 1) return [];
 
   const headers = data[0];

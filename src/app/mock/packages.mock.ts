@@ -41,7 +41,9 @@ export const MOCK_PACKAGES: Package[] = [
     active: true,
     displayOrder: 1,
     metaTitle: 'Somnath Dwarka Tour Package | Sacred Pilgrimage | Heshiv Mobility',
-    metaDescription: 'Book your 5-day Somnath & Dwarka spiritual pilgrimage with Heshiv Mobility. AC vehicle, 3-star stay, VIP darshan assistance.'
+    metaDescription: 'Book your 5-day Somnath & Dwarka spiritual pilgrimage with Heshiv Mobility. AC vehicle, 3-star stay, VIP darshan assistance.',
+    arrivalDate: '',
+    departureDateTime: ''
   },
   {
     packageId: 'pkg-002',
@@ -79,7 +81,9 @@ export const MOCK_PACKAGES: Package[] = [
     active: true,
     displayOrder: 2,
     metaTitle: 'Statue of Unity Tour Package | Family Trip | Heshiv Mobility',
-    metaDescription: 'Experience Kevadia & Statue of Unity in 3 days. Includes hotel stay, transfers, and sightseeing with Heshiv Mobility.'
+    metaDescription: 'Experience Kevadia & Statue of Unity in 3 days. Includes hotel stay, transfers, and sightseeing with Heshiv Mobility.',
+    arrivalDate: '',
+    departureDateTime: ''
   },
   {
     packageId: 'pkg-003',
@@ -116,7 +120,9 @@ export const MOCK_PACKAGES: Package[] = [
     active: true,
     displayOrder: 3,
     metaTitle: 'Rann of Kutch White Desert Tour | Heshiv Mobility',
-    metaDescription: 'Explore Rann Utsav and Kutch handicraft heritage with Heshiv Mobility.'
+    metaDescription: 'Explore Rann Utsav and Kutch handicraft heritage with Heshiv Mobility.',
+    arrivalDate: '',
+    departureDateTime: ''
   },
   {
     packageId: 'pkg-004',
@@ -152,6 +158,8 @@ export const MOCK_PACKAGES: Package[] = [
     active: true,
     displayOrder: 4,
     metaTitle: 'Gir Wildlife & Somnath Tour | Heshiv Mobility',
-    metaDescription: 'Gir Asiatic Lion safari combined with Somnath temple pilgrimage.'
+    metaDescription: 'Gir Asiatic Lion safari combined with Somnath temple pilgrimage.',
+    arrivalDate: '',
+    departureDateTime: ''
   }
 ];

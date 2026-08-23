@@ -4,6 +4,7 @@ import {
   parseNumber,
   parseArray,
   parseString,
+  parseDateString,
   transformPackageRow,
   transformBlogRow
 } from './data-transformers';
@@ -65,6 +66,24 @@ describe('Google Sheets Data Transformers', () => {
       expect(transformed.metaDescription).toBe('3 Days White Desert Tour Package');
       expect(transformed.packageId).toBe('pkg-kutch-rann-utsav-special');
       expect(transformed.featured).toBeTrue();
+    });
+  });
+
+  describe('parseDateString', () => {
+    it('should format ISO timestamp string to Indian date format (DD-MM-YYYY)', () => {
+      const result = parseDateString('2026-04-08T18:30:00.000Z');
+      expect(result).toBe('09-04-2026');
+    });
+
+    it('should preserve plain text formatted strings as-is without altering them', () => {
+      expect(parseDateString('29-08-2026 09:00 PM')).toBe('29-08-2026 09:00 PM');
+      expect(parseDateString('2026-04-09')).toBe('2026-04-09');
+    });
+
+    it('should return fallback for null or empty input', () => {
+      expect(parseDateString(null)).toBe('');
+      expect(parseDateString(undefined)).toBe('');
+      expect(parseDateString('')).toBe('');
     });
   });
 });

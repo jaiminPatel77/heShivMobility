@@ -14,6 +14,8 @@ export interface Package {
   highlights: string[];
   inclusions: string[];
   exclusions: string[];
+  arrivalDate: string;
+  departureDateTime: string;
   featured: boolean;
   active: boolean;
   displayOrder: number;

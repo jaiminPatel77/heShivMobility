@@ -1,8 +1,9 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Package } from '../../../core/models/package.model';
 import { ImageUrlService } from '../../../core/services/image-url.service';
+import { getDestinationSummary, DestinationSummary } from '../../utils/destination-summary';
 
 @Component({
   selector: 'app-package-card',
@@ -10,7 +11,7 @@ import { ImageUrlService } from '../../../core/services/image-url.service';
   imports: [CommonModule, RouterLink],
   template: `
     <article class="package-card card-glass">
-      <!-- Badge / Category -->
+      <!-- Image -->
       <div class="card-media">
         <img
           [src]="imageService.processImageUrl(pkg.mainImage)"
@@ -25,27 +26,48 @@ import { ImageUrlService } from '../../../core/services/image-url.service';
 
       <!-- Content Body -->
       <div class="card-body">
-        <div class="card-meta">
-          <span class="meta-item">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            {{ pkg.destination }}
-          </span>
-          <span class="meta-item">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            {{ pkg.duration }}
+        <!-- Destination Summary -->
+        <div class="destination-chip" *ngIf="destinationSummary.visible.length">
+          <svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span class="dest-text">
+            {{ destinationSummary.visible.join(' • ') }}
+            <span *ngIf="destinationSummary.remainingCount > 0" class="dest-more">+{{ destinationSummary.remainingCount }} more</span>
           </span>
         </div>
 
+        <!-- Duration Chip -->
+        <div class="duration-chip" *ngIf="pkg.duration">
+          <svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>{{ pkg.duration }}</span>
+        </div>
+
+        <!-- Arrival / Departure Dates -->
+        <div class="card-dates" *ngIf="pkg.arrivalDate || pkg.departureDateTime">
+          <span class="date-item" *ngIf="pkg.arrivalDate">
+            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Arrival: {{ pkg.arrivalDate }}
+          </span>
+          <span class="date-item" *ngIf="pkg.departureDateTime">
+            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Departure: {{ pkg.departureDateTime }}
+          </span>
+        </div>
+
+        <!-- Title -->
         <h3 class="card-title">
           <a [routerLink]="['/packages', pkg.slug]">{{ pkg.title }}</a>
         </h3>
 
+        <!-- Short Description -->
         <p class="card-desc">{{ pkg.shortDescription }}</p>
 
-        <!-- Highlights Pills -->
+        <!-- Highlight Pills (max 2) -->
         <div class="highlights-list" *ngIf="pkg.highlights && pkg.highlights.length">
           <span *ngFor="let item of pkg.highlights.slice(0, 2)" class="pill">
             ✓ {{ item }}
+          </span>
+          <span *ngIf="pkg.highlights.length > 2" class="pill pill-more">
+            +{{ pkg.highlights.length - 2 }} more
           </span>
         </div>
 
@@ -126,35 +148,103 @@ import { ImageUrlService } from '../../../core/services/image-url.service';
       gap: $spacing-3;
     }
 
-    .card-meta {
+    /* ── Destination Chip ── */
+    .destination-chip {
       display: flex;
-      gap: $spacing-4;
+      align-items: flex-start;
+      gap: 6px;
       font-size: $font-size-xs;
-      color: $color-muted-text;
+      color: $color-primary-navy;
       font-weight: $font-weight-medium;
-
-      .meta-item {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-      }
+      line-height: 1.4;
 
       .icon {
         width: 14px;
         height: 14px;
         color: $color-royal-blue;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+
+      .dest-text {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .dest-more {
+        color: $color-royal-blue;
+        font-weight: $font-weight-semibold;
+        white-space: nowrap;
       }
     }
 
+    /* ── Duration Chip ── */
+    .duration-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: $font-size-xs;
+      font-weight: $font-weight-semibold;
+      color: $color-primary-navy;
+      background: rgba(#0B2A5B, 0.06);
+      padding: 5px 12px;
+      border-radius: $radius-full;
+      border: 1px solid rgba(#0B2A5B, 0.08);
+      align-self: flex-start;
+
+      .icon {
+        width: 13px;
+        height: 13px;
+        color: $color-gold;
+        flex-shrink: 0;
+      }
+    }
+
+    /* ── Date Chips ── */
+    .card-dates {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: $font-size-xs;
+      color: $color-primary-navy;
+      background: rgba(#0B2A5B, 0.04);
+      padding: $spacing-2 $spacing-3;
+      border-radius: $radius-sm;
+      border-left: 3px solid $color-gold;
+
+      .date-item {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-weight: $font-weight-medium;
+      }
+
+      .icon {
+        width: 13px;
+        height: 13px;
+        color: $color-gold;
+        flex-shrink: 0;
+      }
+    }
+
+    /* ── Title ── */
     .card-title {
       font-size: $font-size-xl;
       line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+
       a {
         color: $color-primary-navy;
         &:hover { color: $color-royal-blue; }
       }
     }
 
+    /* ── Description ── */
     .card-desc {
       font-size: $font-size-sm;
       color: $color-muted-text;
@@ -165,6 +255,7 @@ import { ImageUrlService } from '../../../core/services/image-url.service';
       overflow: hidden;
     }
 
+    /* ── Highlight Pills ── */
     .highlights-list {
       display: flex;
       flex-wrap: wrap;
@@ -179,8 +270,15 @@ import { ImageUrlService } from '../../../core/services/image-url.service';
         border-radius: $radius-sm;
         font-weight: $font-weight-medium;
       }
+
+      .pill-more {
+        background-color: rgba($color-royal-blue, 0.08);
+        color: $color-royal-blue;
+        font-weight: $font-weight-semibold;
+      }
     }
 
+    /* ── Footer ── */
     .card-footer {
       display: flex;
       align-items: center;
@@ -221,4 +319,8 @@ import { ImageUrlService } from '../../../core/services/image-url.service';
 export class PackageCardComponent {
   @Input({ required: true }) pkg!: Package;
   imageService = inject(ImageUrlService);
+
+  get destinationSummary(): DestinationSummary {
+    return getDestinationSummary(this.pkg.destination, 3);
+  }
 }

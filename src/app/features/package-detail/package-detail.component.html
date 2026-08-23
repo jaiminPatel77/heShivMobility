@@ -20,12 +20,12 @@
       <div class="overlay"></div>
     </div>
     <div class="container hero-content">
-      <!-- <app-breadcrumb [items]="[{ label: 'Packages', url: '/packages' }, { label: pkg()!.title }]"></app-breadcrumb> -->
-      
       <div class="hero-tags">
         <span class="badge">{{ pkg()?.category }}</span>
         <span class="meta-tag">📍 {{ pkg()?.destination }}</span>
         <span class="meta-tag">⏱️ {{ pkg()?.duration }}</span>
+        <span class="meta-tag" *ngIf="pkg()?.arrivalDate">📅 Arrival: {{ pkg()?.arrivalDate }}</span>
+        <span class="meta-tag" *ngIf="pkg()?.departureDateTime">🚌 Departure: {{ pkg()?.departureDateTime }}</span>
       </div>
 
       <h1 class="hero-title">{{ pkg()?.title }}</h1>
@@ -47,12 +47,74 @@
   <!-- Content Section -->
   <section class="section detail-content">
     <div class="container detail-grid">
-      <!-- Left Column: Itinerary Details -->
+      <!-- Left Column: Itinerary & Tour Overview Details -->
       <div class="main-info">
-        <!-- Overview -->
+
+        <!-- Tour Overview & Day-Wise Itinerary -->
         <div class="content-block card-glass">
           <h2 class="block-title">Tour Overview</h2>
-          <p class="desc-text">{{ pkg()?.description }}</p>
+
+          <!-- Introductory Overview Text (if present) -->
+          <p class="desc-text overview-lead" *ngIf="parsedItinerary().overviewText">
+            {{ parsedItinerary().overviewText }}
+          </p>
+
+          <!-- Day-Wise Timeline Itinerary -->
+          <div class="itinerary-timeline" *ngIf="parsedItinerary().hasItinerary">
+            <div
+              *ngFor="let day of parsedItinerary().days; let i = index"
+              class="timeline-item"
+              [class.expanded]="isDayExpanded(i)">
+
+              <!-- Timeline Marker (Desktop Bullet & Line) -->
+              <div class="timeline-marker" aria-hidden="true">
+                <span class="marker-dot"></span>
+                <span class="marker-line" *ngIf="i < parsedItinerary().days.length - 1"></span>
+              </div>
+
+              <!-- Timeline Content Card / Accordion -->
+              <div class="timeline-card">
+                <!-- Day Header Toggle -->
+                <button
+                  type="button"
+                  class="day-header-btn"
+                  (click)="toggleDay(i)"
+                  [attr.aria-expanded]="isDayExpanded(i)"
+                  [attr.aria-controls]="'day-content-' + i">
+                  <div class="day-badge-group">
+                    <span class="day-main-badge">{{ day.dayHeaderMain }}</span>
+                    <span class="day-sub-title" *ngIf="day.dayHeaderSub">{{ day.dayHeaderSub }}</span>
+                  </div>
+                  <svg
+                    class="chevron-icon"
+                    [class.rotate]="isDayExpanded(i)"
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </button>
+
+                <!-- Day Content Body -->
+                <div
+                  [id]="'day-content-' + i"
+                  class="day-body"
+                  *ngIf="isDayExpanded(i)">
+
+                  <p class="day-text" *ngIf="day.descriptionText">{{ day.descriptionText }}</p>
+
+                  <ul class="activities-list" *ngIf="day.activities.length">
+                    <li *ngFor="let act of day.activities" class="activity-item">
+                      <span class="act-bullet" aria-hidden="true">✓</span>
+                      <span class="act-text">{{ act }}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Key Highlights -->

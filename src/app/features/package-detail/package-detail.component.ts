@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
@@ -14,6 +14,7 @@ import { Package } from '../../core/models/package.model';
 import { SeoService } from '../../core/services/seo.service';
 import { ImageUrlService } from '../../core/services/image-url.service';
 import { BUSINESS_INFO } from '../../core/config/business-info';
+import { parseItinerary, ParsedItinerary } from '../../shared/utils/itinerary-parser';
 
 @Component({
   selector: 'app-package-detail',
@@ -41,6 +42,14 @@ export class PackageDetailPageComponent implements OnInit {
   isLoading = signal<boolean>(true);
   hasError = signal<boolean>(false);
 
+  // Parsed Day-wise itinerary
+  parsedItinerary = computed<ParsedItinerary>(() => {
+    return parseItinerary(this.pkg()?.description);
+  });
+
+  // Track expanded accordion items (all expanded by default on desktop/mobile for scanability & SEO)
+  expandedDays = signal<Set<number>>(new Set());
+
   ngOnInit() {
     this.route.params.subscribe(params => {
       const slug = params['slug'];
@@ -64,6 +73,12 @@ export class PackageDetailPageComponent implements OnInit {
             description: data.metaDescription || data.shortDescription,
             ogImage: data.mainImage
           });
+
+          // Expand all itinerary days by default
+          const parsed = parseItinerary(data.description);
+          const allIndices = new Set<number>(parsed.days.map((_, i) => i));
+          this.expandedDays.set(allIndices);
+
           this.loadRelatedPackages(data.category, data.slug);
         } else {
           this.hasError.set(true);
@@ -83,6 +98,22 @@ export class PackageDetailPageComponent implements OnInit {
         this.relatedPackages.set(related);
       }
     });
+  }
+
+  toggleDay(index: number) {
+    this.expandedDays.update(set => {
+      const next = new Set(set);
+      if (next.has(index)) {
+        next.delete(index);
+      } else {
+        next.add(index);
+      }
+      return next;
+    });
+  }
+
+  isDayExpanded(index: number): boolean {
+    return this.expandedDays().has(index);
   }
 
   scrollToEnquiry() {

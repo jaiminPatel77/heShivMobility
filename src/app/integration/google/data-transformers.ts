@@ -49,6 +49,46 @@ export function parseString(value: any, fallback = ''): string {
   return String(value).trim();
 }
 
+export function parseDateString(value: any, fallback = ''): string {
+  if (value === null || value === undefined) return fallback;
+  const str = String(value).trim();
+  if (!str) return fallback;
+
+  // If Google Sheets returns an ISO Date string (e.g. 2026-04-08T18:30:00.000Z)
+  if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(str)) {
+    const d = new Date(str);
+    if (!isNaN(d.getTime())) {
+      const formatter = new Intl.DateTimeFormat('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+      const parts = formatter.formatToParts(d);
+      const getPart = (type: string) => parts.find(p => p.type === type)?.value || '';
+
+      const day = getPart('day');
+      const month = getPart('month');
+      const year = getPart('year');
+      const hour = getPart('hour');
+      const minute = getPart('minute');
+      const dayPeriod = getPart('dayPeriod').toUpperCase();
+
+      if (hour === '12' && minute === '00' && dayPeriod === 'AM') {
+        return `${day}-${month}-${year}`;
+      } else {
+        return `${day}-${month}-${year} ${hour}:${minute} ${dayPeriod}`;
+      }
+    }
+  }
+
+  // Display raw plain text as-is (e.g. "29-08-2026 09:00 PM" or "2026-04-09")
+  return str;
+}
+
 export function transformPackageRow(row: any): Package {
   const title = parseString(row.Title, 'Untitled Package');
   const slug = parseString(row.Slug) || slugify(title);
@@ -71,6 +111,8 @@ export function transformPackageRow(row: any): Package {
     highlights: parseArray(row.Highlights),
     inclusions: parseArray(row.Inclusions),
     exclusions: parseArray(row.Exclusions),
+    arrivalDate: parseDateString(row.ArrivalDate),
+    departureDateTime: parseDateString(row.DepartureDateTime),
     featured: parseBoolean(row.Featured, true), // Default to true if not specified
     active: parseBoolean(row.Active, true),
     displayOrder: parseNumber(row.DisplayOrder, 0),
