@@ -95,6 +95,60 @@ export interface ParsedPriceInfo {
   priceTiers: PriceTier[];
 }
 
+export function splitPriceTiers(str: string): string[] {
+  if (/[|\r\n]/.test(str)) {
+    return str.split(/\s*[\r\n|]+\s*/).map(p => p.trim()).filter(Boolean);
+  }
+  if (/\s+\/\s+/.test(str)) {
+    return str.split(/\s+\/\s+/).map(p => p.trim()).filter(Boolean);
+  }
+  return [str.trim()];
+}
+
+export function parseSingleTier(part: string): { label: string; price: number } | null {
+  const trimmed = part.trim();
+  if (!trimmed) return null;
+
+  // 1. If part contains a colon (e.g. "3/3 Non AC Luxury: 395" or "Above Sofa: ₹6,999")
+  const colonIdx = trimmed.indexOf(':');
+  if (colonIdx !== -1) {
+    const rawLabel = trimmed.substring(0, colonIdx).trim();
+    const rawPrice = trimmed.substring(colonIdx + 1).trim();
+    const priceNum = parseNumber(rawPrice, 0);
+    if (priceNum > 0) {
+      return {
+        label: rawLabel || 'Option',
+        price: priceNum
+      };
+    }
+  }
+
+  // 2. If no colon, extract trailing price number (e.g. "3/3 Non AC Luxury 395" or "3/3 AC Luxury ₹595")
+  const match = trimmed.match(/^(.*?)(?:₹\s*|\b(?:rs\.?|inr)\s*)?([\d,]+(?:\.\d+)?)\s*$/i);
+  if (match) {
+    const rawLabel = match[1].trim();
+    const priceNum = parseNumber(match[2], 0);
+    if (priceNum > 0) {
+      return {
+        label: rawLabel || 'Option',
+        price: priceNum
+      };
+    }
+  }
+
+  // 3. Fallback: parse entire string as number
+  const priceNum = parseNumber(trimmed, 0);
+  if (priceNum > 0) {
+    const label = trimmed.replace(/[0-9₹,.-]/g, '').trim();
+    return {
+      label: label || 'Option',
+      price: priceNum
+    };
+  }
+
+  return null;
+}
+
 export function parsePriceInfo(rawPrice: any): ParsedPriceInfo {
   if (rawPrice === null || rawPrice === undefined || String(rawPrice).trim() === '') {
     return { startingPrice: 0, priceTiers: [] };
@@ -105,41 +159,38 @@ export function parsePriceInfo(rawPrice: any): ParsedPriceInfo {
   }
 
   const str = String(rawPrice).trim();
+  if (!str) {
+    return { startingPrice: 0, priceTiers: [] };
+  }
 
-  // If string contains multiple pricing tiers (e.g. "Above Sofa: 6999 | Below Sofa: 7999" or "Above Sofa: ₹6,999 / Below Sofa: ₹7,999")
-  if (/[:|/]|Above|Below|Sofa|Sleeper|Seater|Lower|Upper/i.test(str) && /[0-9]/.test(str)) {
-    const parts = str.split(/\s*[\r\n|/]\s*/).map(p => p.trim()).filter(Boolean);
+  const parts = splitPriceTiers(str);
+
+  if (parts.length > 1 || /[:|]/i.test(str) || /[a-zA-Z]/.test(str.replace(/^(₹|rs\.?|inr)/i, ''))) {
     const tiers: PriceTier[] = [];
     let lowestPrice = Infinity;
 
     for (const part of parts) {
-      const colonSplit = part.split(/\s*:\s*/);
-      if (colonSplit.length >= 2) {
-        const label = colonSplit[0].trim();
-        const priceNum = parseNumber(colonSplit[1], 0);
-        if (priceNum > 0) {
-          tiers.push({
-            label,
-            price: priceNum,
-            formattedPrice: `₹${priceNum.toLocaleString('en-IN')}`
-          });
-          if (priceNum < lowestPrice) lowestPrice = priceNum;
-        }
-      } else {
-        const priceNum = parseNumber(part, 0);
-        const label = part.replace(/[0-9₹,.-]/g, '').trim();
-        if (priceNum > 0) {
-          tiers.push({
-            label: label || 'Option',
-            price: priceNum,
-            formattedPrice: `₹${priceNum.toLocaleString('en-IN')}`
-          });
-          if (priceNum < lowestPrice) lowestPrice = priceNum;
+      const parsedTier = parseSingleTier(part);
+      if (parsedTier && parsedTier.price > 0) {
+        tiers.push({
+          label: parsedTier.label,
+          price: parsedTier.price,
+          formattedPrice: `₹${parsedTier.price.toLocaleString('en-IN')}`
+        });
+        if (parsedTier.price < lowestPrice) {
+          lowestPrice = parsedTier.price;
         }
       }
     }
 
     if (tiers.length > 0) {
+      if (tiers.length === 1 && tiers[0].label === 'Option' && !/[:|/a-zA-Z]/.test(str)) {
+        return {
+          startingPrice: tiers[0].price,
+          priceTiers: []
+        };
+      }
+
       return {
         startingPrice: lowestPrice === Infinity ? parseNumber(str, 0) : lowestPrice,
         displayPrice: str,

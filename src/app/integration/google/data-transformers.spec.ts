@@ -121,6 +121,34 @@ describe('Google Sheets Data Transformers', () => {
       expect(res.priceTiers.length).toBe(2);
     });
 
+    it('should parse multi-tier prices with seating ratios (3/3 Non AC Luxury 395 | 3/3 AC Luxury 595)', () => {
+      const input = '3/3 Non AC Luxury 395 | 3/3 AC Luxury 595 | 2/2 AC Pushback 795 | 2/2 Multi Axle Premium 995';
+      const res = parsePriceInfo(input);
+
+      expect(res.startingPrice).toBe(395);
+      expect(res.priceTiers.length).toBe(4);
+      expect(res.priceTiers[0]).toEqual({
+        label: '3/3 Non AC Luxury',
+        price: 395,
+        formattedPrice: '₹395'
+      });
+      expect(res.priceTiers[1]).toEqual({
+        label: '3/3 AC Luxury',
+        price: 595,
+        formattedPrice: '₹595'
+      });
+      expect(res.priceTiers[2]).toEqual({
+        label: '2/2 AC Pushback',
+        price: 795,
+        formattedPrice: '₹795'
+      });
+      expect(res.priceTiers[3]).toEqual({
+        label: '2/2 Multi Axle Premium',
+        price: 995,
+        formattedPrice: '₹995'
+      });
+    });
+
     it('should return 0 startingPrice for invalid or empty input', () => {
       expect(parsePriceInfo(null).startingPrice).toBe(0);
       expect(parsePriceInfo(undefined).startingPrice).toBe(0);
