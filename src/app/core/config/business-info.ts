@@ -6,7 +6,7 @@ export const BUSINESS_INFO = {
 
   phone: '+91 97263 33195',
   whatsapp: '919726333195',
-  email: 'heshiv05@gmail.com',
+  email: 'info@heshivmobility.com',
 
   address: 'FF-28 Kanha Heights, Somatalav - Statue of unity road, Vadodara 390025, Gujarat, India',
   businessHours: 'Mon - Sun: 10:30 AM - 7:30 PM',
