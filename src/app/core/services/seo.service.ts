@@ -25,12 +25,12 @@ export class SeoService {
   updateSeo(config: SeoMetadata = {}): void {
     const title = config.title
       ? `${config.title} | ${BUSINESS_INFO.companyName}`
-      : `${BUSINESS_INFO.companyName} — ${BUSINESS_INFO.tagline} | ${BUSINESS_INFO.supportingText}`;
+      : `${BUSINESS_INFO.companyName} — ${BUSINESS_INFO.tagBaseLine} | ${BUSINESS_INFO.supportingText}`;
     
     const description = config.description ||
       `${BUSINESS_INFO.companyName}: Premium travel agency specializing in Pilgrimage, Family Tours, Group Tours, and Spiritual Journeys across Gujarat and India.`;
 
-    const ogImage = config.ogImage || `${BUSINESS_INFO.websiteUrl}/assets/images/og-default.jpg`;
+    const ogImage = config.ogImage || `${BUSINESS_INFO.websiteUrl}/${BUSINESS_INFO.logoPath}`;
     const canonical = config.canonicalUrl || (this.document.location ? this.document.location.href : BUSINESS_INFO.websiteUrl);
 
     // Title & Meta Tags
